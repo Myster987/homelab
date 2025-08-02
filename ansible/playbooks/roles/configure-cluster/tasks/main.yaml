@@ -1,0 +1,3 @@
+- import_tasks: gen-config.yaml
+- import_tasks: apply-config.yaml
+- import_tasks: update-cli.yaml

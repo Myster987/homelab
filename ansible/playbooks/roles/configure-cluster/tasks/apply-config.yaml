@@ -1,0 +1,9 @@
+---
+- name: Apply config to cluster nodes
+  when: not stat_result.stat.exists
+  ansible.builtin.command: talosctl apply-config --insecure --nodes {{ item.ip }} --file {{ config_directory }}/controlplane.yaml
+  changed_when: true
+  loop: "{{ processed_nodes }}"
+  loop_control:
+      label: "{{ item.hostname }}"
+  register: apply_output

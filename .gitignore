@@ -1,0 +1,17 @@
+.env
+
+talos/config/*
+talos/patches/generated/*
+
+inventory.ini
+all.yaml
+
+*.pkrvars.*
+*.tfvars
+.terraform
+
+*.tfstate
+*.tfstate.*
+
+crash.log
+crash.*.log

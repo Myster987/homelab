@@ -1,0 +1,9 @@
+- name: Generate config for Talos nodes
+  hosts: localhost
+  gather_facts: false
+  vars:
+      prefix_map:
+          controlplane: "cp"
+          worker: "w"
+  roles:
+      - configure-cluster

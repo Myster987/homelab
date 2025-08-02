@@ -1,0 +1,55 @@
+---
+- name: Check if config file already exists
+  ansible.builtin.stat:
+      path: "{{ config_file }}"
+  register: stat_result
+
+# Create list of nodes in cluster
+- name: Build node list from {{ cluster_name }} group
+  set_fact:
+      node_list: >-
+          {{
+            groups[cluster_inventory_name] | map('extract', hostvars) | list
+          }}
+
+- name: Initialize processed_nodes list
+  set_fact:
+      processed_nodes: []
+
+# Add indexes of nodes and proper hostname
+- name: Generate hostname metadata
+  set_fact:
+      processed_nodes: "{{ processed_nodes + [ {
+          'hostname': 'cp-' ~ '%02d' | format(index + 1),
+          'ip': item.ansible_host,
+          'inventory_hostname': item.inventory_hostname } ] }}"
+  loop: "{{ node_list }}"
+  loop_control:
+      label: "{{ item.inventory_hostname }}"
+      index_var: index
+
+- name: Print nodes in cluster
+  ansible.builtin.debug:
+      msg: "{{ item }}"
+  loop: "{{ processed_nodes }}"
+  loop_control:
+      label: "{{ item.hostname }}"
+
+# Render patches to later apply after nodes are created
+- name: Render cluster hostname patch templates
+  template:
+      src: "{{ templates_directory }}/set-hostname.yaml.j2"
+      dest: "{{ talos_directory }}/patches/generated/{{ item.hostname }}.yaml"
+  loop: "{{ processed_nodes }}"
+
+# Generate Talos config to later apply in apply-config.yaml
+- name: Generate config for cluster (for talos)
+  when: not stat_result.stat.exists
+  ansible.builtin.command: |
+      talosctl gen config 
+      {{ cluster_name }} https://{{ control_plane_ip }}:6443
+      --output-dir {{ config_directory }} 
+      --config-patch @{{ talos_directory }}/patches/allow-controlplane-workloads.yaml
+      --config-patch @{{ talos_directory }}/patches/disable-kube-proxy-and-cni.yaml
+  changed_when: true
+  register: install_output
