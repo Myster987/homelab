@@ -3,4 +3,4 @@ cluster:
         cni:
             name: none
     proxy:
-        disabled: false
+        disabled: true

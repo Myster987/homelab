@@ -12,7 +12,7 @@ resource "proxmox_vm_qemu" "talos-vms" {
   description = var.desc
   agent       = 1 # qemu agent enabled
 
-  # boot        = "order=cdrom;net0"
+  boot        = "order=virtio0;ide2;net0"
   onboot      = true
   target_node = var.target_node
   # template id
@@ -31,26 +31,26 @@ resource "proxmox_vm_qemu" "talos-vms" {
     ide {
       ide2 {
         cdrom {
-          iso = "local:iso/talos-nocloud-amd64.iso"
+          iso = "local:iso/talos-metal-amd64.iso"
         }
       }
     }
-    # virtio {
-    #   virtio0 {
-    #     disk {
-    #       size    = var.disk_size
-    #       storage = local.storage
-    #     }
-    #   }
-    # }
-    scsi {
-      scsi0 {
+    virtio {
+      virtio0 {
         disk {
           size    = var.disk_size
           storage = local.storage
         }
       }
     }
+    # scsi {
+    #   scsi0 {
+    #     disk {
+    #       size    = var.disk_size
+    #       storage = local.storage
+    #     }
+    #   }
+    # }
   }
 
   network {

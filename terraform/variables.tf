@@ -20,7 +20,6 @@ variable "proxmox_nodename" {
   # default = env("PROXMOX_NODE_NAME")
 }
 
-# vm module varaibles
 variable "vm_count" {
   type    = number
   default = 1

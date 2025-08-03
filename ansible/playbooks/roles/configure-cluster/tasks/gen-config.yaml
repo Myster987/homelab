@@ -50,6 +50,8 @@
       {{ cluster_name }} https://{{ control_plane_ip }}:6443
       --output-dir {{ config_directory }} 
       --config-patch @{{ talos_directory }}/patches/allow-controlplane-workloads.yaml
-      --config-patch @{{ talos_directory }}/patches/disable-kube-proxy-and-cni.yaml
+      --config-patch @{{ talos_directory }}/patches/correct-installation-disk.yaml
   changed_when: true
-  register: install_output
+  register:
+      install_output
+      # --config-patch @{{ talos_directory }}/patches/disable-kube-proxy-and-cni.yaml

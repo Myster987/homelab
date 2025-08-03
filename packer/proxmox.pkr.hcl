@@ -20,8 +20,7 @@ variable "arch" {
 locals {
     timestamp = timestamp()
     disk_storage = "local-lvm"
-    # image = "https://factory.talos.dev/image/ce4c980550dd2ab1b17bbf2b08801c7eb59418eafe8f279833297925d67c7515/${var.talos_version}/nocloud-${var.arch}.iso"
-    raw_image     = "nocloud-${var.arch}.raw"
+    raw_image     = "/root/nocloud-${var.arch}.raw"
 }
 
 source "proxmox-iso" "talos" {
@@ -41,7 +40,7 @@ source "proxmox-iso" "talos" {
 
     boot_iso {
         # type        = "virtio"
-        iso_file    = "local:iso/talos-nocloud-${var.arch}.iso"
+        iso_file    = "local:iso/talos-metal-${var.arch}.iso"
         unmount = false # for some reason when setting unmount to true cloned vm wouldn't boot
         iso_checksum = "none" # integrity is already checked at downlaod (https://github.com/siderolabs/image-factory/issues/184)
     }
@@ -55,11 +54,10 @@ source "proxmox-iso" "talos" {
       disk_size    = "114G"
       format       = "raw"
       storage_pool = local.disk_storage
-      # type         = "virtio"
-      type         = "scsi"
-      ssd = true
+      type         = "virtio"
+      # type         = "scsi"
+      # ssd = true
     }
-
 
     cores        = 4
     cpu_type     = "x86-64-v2-AES"
