@@ -10,8 +10,8 @@ spec:
             version: "1.10.0"
             sourceRef:
                 kind: HelmRepository
-                name: traefik
-                namespace: flux-system
+                name: traefik-crds
+                namespace: traefik
     interval: 5m
     install:
         createNamespace: false
