@@ -1,0 +1,9 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+    name: local-path-provisioner
+    namespace: local-path-provisioner
+spec:
+    interval: 5m0s
+    url: https://charts.containeroo.ch
