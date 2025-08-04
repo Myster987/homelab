@@ -5,3 +5,4 @@ resources:
     - gotk-sync.yaml
     - cilium.yaml
     - ingress.yaml
+    - cloudflare.yaml
