@@ -3,6 +3,8 @@ kind: IngressRoute
 metadata:
     name: hubble-ui
     namespace: kube-system
+    annotations:
+        kubernetes.io/ingress.class: traefik
 spec:
     entryPoints:
         - web
