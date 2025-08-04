@@ -5,4 +5,3 @@ resources:
     - gotk-sync.yaml
     - cilium.yaml
     - ingress.yaml
-    - cert-manager.yaml
