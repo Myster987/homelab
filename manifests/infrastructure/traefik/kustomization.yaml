@@ -6,3 +6,5 @@ resources:
     - crds.yaml
     - traefik.yaml
     - release.yaml
+    - default-headers.yaml
+    - dashboard-ingress.yaml
