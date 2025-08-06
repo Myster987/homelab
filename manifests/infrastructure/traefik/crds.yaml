@@ -12,7 +12,7 @@ spec:
                 kind: HelmRepository
                 name: traefik-crds
                 namespace: traefik
-    interval: 5m
+    interval: 2h
     install:
         createNamespace: false
     upgrade:

@@ -5,5 +5,5 @@ metadata:
     name: cloudflare-tunnel-remote
     namespace: cloudflare
 spec:
-    interval: 5m0s
+    interval: 15m
     url: https://cloudflare.github.io/helm-charts

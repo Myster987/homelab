@@ -5,7 +5,7 @@ metadata:
     name: cloudflare-tunnel-remote
     namespace: cloudflare
 spec:
-    interval: 5m
+    interval: 15m
     chart:
         spec:
             chart: cloudflare-tunnel-remote
@@ -14,7 +14,7 @@ spec:
                 kind: HelmRepository
                 name: cloudflare-tunnel-remote
                 namespace: cloudflare
-            interval: 1m
+            interval: 2h
     values:
         ingress:
             - hostname: "*.mikolajmaciejak.dev"

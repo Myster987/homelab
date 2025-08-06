@@ -5,7 +5,7 @@ metadata:
     name: metallb
     namespace: flux-system
 spec:
-    interval: 10m0s
+    interval: 30m
     path: ./manifests/infrastructure/metallb
     prune: true
     sourceRef:
@@ -19,7 +19,7 @@ metadata:
     name: traefik
     namespace: flux-system
 spec:
-    interval: 10m0s
+    interval: 30m
     path: ./manifests/infrastructure/traefik
     prune: true
     sourceRef:
@@ -33,7 +33,7 @@ metadata:
     name: cert-manager
     namespace: flux-system
 spec:
-    interval: 10m0s
+    interval: 30m
     path: ./manifests/infrastructure/cert-manager
     prune: true
     sourceRef:
@@ -47,7 +47,7 @@ metadata:
     name: cluster-issuer
     namespace: flux-system
 spec:
-    interval: 10m0s
+    interval: 30m
     path: ./manifests/infrastructure/cluster-issuer
     prune: true
     sourceRef:
