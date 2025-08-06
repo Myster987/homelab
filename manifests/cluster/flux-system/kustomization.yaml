@@ -7,3 +7,4 @@ resources:
     - ingress.yaml
     - cloudflare.yaml
     - local-path-provisioner.yaml
+    - cloudnative-pg.yaml
