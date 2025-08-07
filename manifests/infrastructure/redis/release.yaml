@@ -7,7 +7,7 @@ spec:
     interval: 15m
     chart:
         spec:
-            chart: ot-helm
+            chart: redis-operator
             version: "0.21.0"
             sourceRef:
                 kind: HelmRepository
