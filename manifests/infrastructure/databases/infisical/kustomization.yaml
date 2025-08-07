@@ -6,4 +6,5 @@ metadata:
 resources:
     - namespace.yaml
     - cnpg.yaml
-    - redis.yaml
+    - redis-replication.yaml
+    - redis-sentiel.yaml
