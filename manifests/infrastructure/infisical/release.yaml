@@ -1,0 +1,21 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+    name: infisical
+    namespace: infisical
+spec:
+    interval: 15m
+    chart:
+        spec:
+            chart: infisical
+            sourceRef:
+                kind: HelmRepository
+                name: infisical
+                namespace: infisical
+            interval: 2h
+    values:
+        infisical:
+            image:
+                repository: infisical/infisical
+                tag: dd0f5ce
+                pullPolicy: IfNotPresent
