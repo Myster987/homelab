@@ -15,6 +15,3 @@ all.yaml
 
 crash.log
 crash.*.log
-
-issuer-secret.yaml
-secret.yaml
