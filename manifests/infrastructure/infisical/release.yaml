@@ -19,3 +19,7 @@ spec:
                 repository: infisical/infisical
                 tag: dd0f5ce
                 pullPolicy: IfNotPresent
+        ingress:
+            enabled: true
+            ingressClassName: traefik
+            hostName: infisical.mikolajmaciejak.dev
