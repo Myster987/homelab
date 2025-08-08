@@ -10,4 +10,3 @@ resources:
     - cloudnative-pg.yaml
     - redis.yaml
     - databases.yaml
-    - infisical.yaml
