@@ -1,32 +1,15 @@
----
 # Set talosctl endpoint
 - name: Update talosctl config (endpoint)
   ansible.builtin.command: talosctl config endpoint {{ control_plane_ip }} --talosconfig {{ config_file }}
   changed_when: true
   register: install_output
+  tags:
+      - update-cli
 
 # Set talosctl node
 - name: Update talosctl config (node)
   ansible.builtin.command: talosctl config node {{ control_plane_ip }} --talosconfig {{ config_file }}
   changed_when: true
   register: install_output
-
-- name: Keep trying to bootstrap
-  ansible.builtin.command: talosctl bootstrap --talosconfig {{ config_file }}
-  register: bootstrap_result
-  retries: 10
-  delay: 30
-  until: bootstrap_result.rc == 0
-
-# They are separet
-- name: Apply hostname patches
-  ansible.builtin.command: talosctl patch mc --nodes {{ item.ip }} --patch @{{ talos_directory }}/patches/generated/{{ item.hostname }}.yaml --talosconfig {{ config_file }}
-  changed_when: true
-  loop: "{{ processed_nodes }}"
-  loop_control:
-      label: "{{ item.hostname }}"
-
-- name: Get cluster kubeconfig
-  ansible.builtin.command: talosctl kubeconfig -m --talosconfig {{ config_file }}
-  changed_when: true
-  register: install_output
+  tags:
+      - update-cli

@@ -1,0 +1,4 @@
+- name: Check if config file already exists
+  ansible.builtin.stat:
+      path: "{{ config_file }}"
+  register: stat_result

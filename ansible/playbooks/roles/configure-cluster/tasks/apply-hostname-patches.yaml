@@ -1,0 +1,9 @@
+# They are separet
+- name: Apply hostname patches
+  ansible.builtin.command: talosctl patch mc --nodes {{ item.ip }} --patch @{{ talos_directory }}/patches/generated/{{ item.hostname }}.yaml --talosconfig {{ config_file }}
+  changed_when: true
+  loop: "{{ processed_nodes }}"
+  loop_control:
+      label: "{{ item.hostname }}"
+  tags:
+      - hostname-patches
