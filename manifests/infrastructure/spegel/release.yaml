@@ -12,5 +12,6 @@ spec:
             sourceRef:
                 kind: HelmRepository
                 name: spegel
-    spegel:
-        containerdRegistryConfigPath: /etc/cri/conf.d/hosts
+    values:
+        spegel:
+            containerdRegistryConfigPath: /etc/cri/conf.d/hosts
