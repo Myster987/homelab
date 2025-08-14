@@ -4,6 +4,7 @@ resources:
     - gotk-components.yaml
     - gotk-sync.yaml
     - cilium.yaml
+    - traefik-crds.yaml
     - ingress.yaml
     - cloudflare.yaml
     - local-path-provisioner.yaml
@@ -11,4 +12,3 @@ resources:
     - redis.yaml
     - databases.yaml
     - spegel.yaml
-    - traefik-crds.yaml
