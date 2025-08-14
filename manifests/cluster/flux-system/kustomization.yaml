@@ -11,3 +11,4 @@ resources:
     - redis.yaml
     - databases.yaml
     - spegel.yaml
+    - traefik-crds.yaml
