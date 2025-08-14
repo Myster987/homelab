@@ -6,6 +6,9 @@ metadata:
     namespace: traefik
 spec:
     interval: 15m
+    dependsOn:
+        - name: traefik-crds
+          namespace: traefik
     chart:
         spec:
             chart: traefik
