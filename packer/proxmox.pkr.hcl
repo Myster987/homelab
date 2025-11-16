@@ -34,7 +34,7 @@ source "proxmox-iso" "talos" {
     vm_name                  = "talos-template-amd64"
 
     template_name = "talos-template-${var.talos_version}-qemu"
-    template_description = "${local.timestamp} - Talos ${var.talos_version} template" 
+    template_description = "${local.timestamp} - Talos ${var.talos_version} template"
 
     boot_wait = "25s"
 
@@ -62,8 +62,8 @@ source "proxmox-iso" "talos" {
     cores        = 4
     cpu_type     = "x86-64-v2-AES"
 
-    memory       = 8192 
-    ballooning_minimum = 4096   
+    memory       = 6144
+    ballooning_minimum = 4096
 
     network_adapters {
         model    = "virtio"

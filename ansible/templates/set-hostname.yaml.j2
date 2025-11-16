@@ -1,3 +1,8 @@
 machine:
   network:
     hostname: "{{ item.hostname }}"
+    interfaces:
+        - interface: eth0
+          dhcp: false
+          addresses:
+              - {{ item.ip }}/24

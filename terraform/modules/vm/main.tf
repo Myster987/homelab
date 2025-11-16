@@ -19,7 +19,7 @@ resource "proxmox_vm_qemu" "talos-vms" {
   clone      = var.template_id
   full_clone = true
 
-  # hardware 
+  # hardware
   cpu {
     cores   = var.cpu_count
     sockets = 1
