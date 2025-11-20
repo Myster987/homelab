@@ -1,7 +1,8 @@
 - name: Setup Kubernetes Cluster
   hosts: kubernetes
+  gather_facts: false
   become: true
   become_user: root
-  become_method: su
+  become_method: sudo
   roles:
       - setup-cluster
