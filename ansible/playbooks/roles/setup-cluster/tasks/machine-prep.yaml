@@ -1,8 +1,3 @@
-- name: Use root user
-  tags:
-      - root
-  shell: sudo -i
-
 - name: Disable swap
   tags:
       - machine-prep
