@@ -23,7 +23,7 @@
       - machine-prep
   shell: |
       apt-get update
-      apt-get install -y apt-transport-https ca-certificates curl gpg,
+      apt-get install -y apt-transport-https ca-certificates curl gpg
 
 - name: Install containerd runtime
   tags:
@@ -34,7 +34,7 @@
       mkdir /etc/containerd
       containerd config default > /etc/containerd/config.toml
       systemctl restart containerd
-      systemctl enable containerd,
+      systemctl enable containerd
 
 - name: Download kubernetes repo key
   tags:
