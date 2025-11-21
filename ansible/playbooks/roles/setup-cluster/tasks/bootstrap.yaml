@@ -7,6 +7,6 @@
       - unzip
       - tar
       - apt-transport-https
-      - btrfs-tools
+      - btrfs-progs
       - libseccomp2
       - util-linux
