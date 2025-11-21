@@ -28,35 +28,49 @@
       state: present
       update_cache: yes
 
-- name: Add containerd repo
-  ansible.builtin.apt_repository:
-      repo: "ppa:containerd/containerd"
-      state: present
+- name: Add Docker GPG key (for containerd repo)
+  ansible.builtin.get_url:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      dest: /etc/apt/keyrings/docker.gpg
+      mode: "0644"
 
-- name: Install containerd
+- name: Add Docker apt repository (contains containerd.io)
+  ansible.builtin.copy:
+      dest: /etc/apt/sources.list.d/docker.list
+      mode: "0644"
+      content: |
+          deb [arch={{ ansible_architecture }} signed-by=/etc/apt/keyrings/docker.gpg] \
+          https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+
+- name: Install latest containerd
   ansible.builtin.apt:
-      name: containerd
+      name: containerd.io
       state: latest
       update_cache: yes
 
-- name: Ensure containerd config directory exists
-  file:
+- name: Ensure containerd directory exists
+  ansible.builtin.file:
       path: /etc/containerd
       state: directory
+      mode: "0755"
 
 - name: Generate default containerd config if not exists
-  command: containerd config default
-  register: cont_config
-  changed_when: cont_config.stdout != ""
+  ansible.builtin.command: containerd config default
   args:
       creates: /etc/containerd/config.toml
+  register: containerd_default_config
 
-- name: Restart containerd
+- name: Write containerd config file
+  ansible.builtin.copy:
+      dest: /etc/containerd/config.toml
+      content: "{{ containerd_default_config.stdout }}"
+  when: containerd_default_config.stdout is defined and containerd_default_config.stdout != ""
+
+- name: Enable and restart containerd
   ansible.builtin.systemd:
       name: containerd
-      state: restarted
       enabled: yes
-
+      state: restarted
 - name: Download kubernetes repo key
   tags:
       - machine-prep
