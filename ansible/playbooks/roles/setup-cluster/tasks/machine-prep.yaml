@@ -9,87 +9,37 @@
       enabled: no
       state: stopped
 
-- name: Add Kubernetes kernel sysctl parameters
-  ansible.builtin.copy:
-      dest: /etc/sysctl.d/kubernetes.conf
-      content: |
-          net.ipv4.ip_forward=1
+- name: "Create a directory for containerd config"
+  file: path=/etc/containerd state=directory
 
-- name: Reload sysctl
-  ansible.builtin.command: sysctl --system
+- name: "Start Containerd"
+  systemd: name=containerd daemon_reload=yes state=started enabled=yes
 
-- name: Install required base packages
-  ansible.builtin.apt:
-      name:
-          - apt-transport-https
-          - ca-certificates
-          - curl
-          - gpg
+- name: "Load br_netfilter kernel module"
+  modprobe:
+      name: br_netfilter
       state: present
-      update_cache: yes
 
-- name: Add Docker GPG key (for containerd repo)
-  ansible.builtin.get_url:
-      url: https://download.docker.com/linux/ubuntu/gpg
-      dest: /etc/apt/keyrings/docker.gpg
-      mode: "0644"
+- name: "Set bridge-nf-call-iptables"
+  sysctl:
+      name: net.bridge.bridge-nf-call-iptables
+      value: 1
 
-- name: Add Docker apt repository (contains containerd.io)
-  ansible.builtin.copy:
-      dest: /etc/apt/sources.list.d/docker.list
-      mode: "0644"
-      content: |
-          deb [arch={{ ansible_architecture }} signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+- name: "Set ip_forward"
+  sysctl:
+      name: net.ipv4.ip_forward
+      value: 1
 
-- name: Install latest containerd
-  ansible.builtin.apt:
-      name: containerd.io
-      state: latest
-      update_cache: yes
+- name: "Check kubelet args in kubelet config"
+  shell: grep "^Environment=\"KUBELET_EXTRA_ARGS=" /etc/systemd/system/kubelet.service.d/10-kubeadm.conf || true
+  register: check_args
 
-- name: Ensure containerd directory exists
-  ansible.builtin.file:
-      path: /etc/containerd
-      state: directory
-      mode: "0755"
+- name: "Add runtime args in kubelet conf"
+  lineinfile:
+      dest: "/etc/systemd/system/kubelet.service.d/10-kubeadm.conf"
+      line: 'Environment="KUBELET_EXTRA_ARGS= --runtime-cgroups=/system.slice/containerd.service --container-runtime=remote --runtime-request-timeout=15m --container-runtime-endpoint=unix:///run/containerd/containerd.sock"'
+      insertafter: '\[Service\]'
+  when: check_args.stdout == ""
 
-- name: Generate default containerd config if not exists
-  ansible.builtin.command: containerd config default
-  args:
-      creates: /etc/containerd/config.toml
-  register: containerd_default_config
-
-- name: Write containerd config file
-  ansible.builtin.copy:
-      dest: /etc/containerd/config.toml
-      content: "{{ containerd_default_config.stdout }}"
-  when: containerd_default_config.stdout is defined and containerd_default_config.stdout != ""
-
-- name: Enable and restart containerd
-  ansible.builtin.systemd:
-      name: containerd
-      enabled: yes
-      state: restarted
-- name: Download kubernetes repo key
-  tags:
-      - machine-prep
-  shell: |
-      curl -fsSL https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_version }}/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-      echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_version }}/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
-
-- name: Install Kubernetes components
-  ansible.builtin.apt:
-      name:
-          - kubelet
-          - kubeadm
-          - kubectl
-      state: present
-      update_cache: yes
-
-- name: Hold Kubernetes packages at installed version
-  ansible.builtin.apt:
-      name:
-          - kubelet
-          - kubeadm
-          - kubectl
-      state: hold
+- name: "Start Kubelet"
+  systemd: name=kubelet daemon_reload=yes state=started enabled=yes

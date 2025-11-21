@@ -1,2 +1,4 @@
+- import_tasks: bootstrap.yaml
+- import_tasks: get-kubernetes.yaml
+- import_tasks: get-containerd.yaml
 - import_tasks: machine-prep.yaml
-
