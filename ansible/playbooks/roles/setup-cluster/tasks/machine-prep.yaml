@@ -1,12 +1,7 @@
-- name: Disable swap now
-  ansible.builtin.command: swapoff -a
-  when: ansible_swaptotal_mb | int > 0
-
-- name: Remove swap entries from fstab
-  ansible.builtin.replace:
-      path: /etc/fstab
-      regexp: "^.* swap .*$"
-      replace: ""
+- name: Disable swap
+  tags:
+      - machine-prep
+  shell: swapoff -a; sed -i '/swap/d' /etc/fstab
 
 - name: Disable Firewall
   ansible.builtin.systemd:
