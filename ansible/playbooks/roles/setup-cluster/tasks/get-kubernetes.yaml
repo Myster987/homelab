@@ -9,7 +9,7 @@
       update_cache: yes
 
 - name: "Install kubelet, kubeadm, kubectl"
-  apt: name={{item}} state=installed
+  apt: name={{item}} state=latest
   with_items:
       - kubelet
       - kubeadm
