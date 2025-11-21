@@ -1,14 +1,8 @@
----
 - name: "Add gpg key"
-  apt_key:
-      url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
-      state: present
+  shell: curl -fsSL https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_version }}/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 
-- name: "Add kubernetes source list"
-  apt_repository:
-      repo: "deb http://apt.kubernetes.io/ kubernetes-{{ ansible_distribution_release }} main"
-      state: present
-      filename: "kubernetes"
+- name: "Add kubernetes repository"
+  shell: echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_version }}/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
 - name: "Update the repository cache"
   apt:

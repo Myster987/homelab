@@ -1,7 +1,11 @@
 ---
+- name: Get system architecture
+  shell: dpkg --print-architecture
+  register: system_architecture
+
 - name: "Get Containerd"
   unarchive:
-      src: "https://github.com/containerd/containerd/releases/download/v{{ containerd_version }}/cri-containerd-cni-{{ containerd_version }}-linux-amd64.tar.gz"
+      src: "https://github.com/containerd/containerd/releases/download/v{{ containerd_version }}/cri-containerd-cni-{{ containerd_version }}-linux-{{ system_architecture.stdout }}.tar.gz"
       dest: "/"
       remote_src: yes
 
