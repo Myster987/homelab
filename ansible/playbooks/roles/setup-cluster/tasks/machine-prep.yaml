@@ -1,40 +1,66 @@
-- name: Disable swap
-  tags:
-      - machine-prep
-  shell: swapoff -a; sed -i '/swap/d' /etc/fstab
+- name: Disable swap now
+  ansible.builtin.command: swapoff -a
+  when: ansible_swaptotal_mb | int > 0
+
+- name: Remove swap entries from fstab
+  ansible.builtin.replace:
+      path: /etc/fstab
+      regexp: "^.* swap .*$"
+      replace: ""
 
 - name: Disable Firewall
-  tags:
-      - machine-prep
-  shell: systemctl disable --now ufw
+  ansible.builtin.systemd:
+      name: ufw
+      enabled: no
+      state: stopped
 
-- name: Add Kernel settings
-  tags:
-      - machine-prep
-  shell: |
-      cat >>/etc/sysctl.d/kubernetes.conf<<EOF
-      net.ipv4.ip_forward                 = 1
-      EOF
+- name: Add Kubernetes kernel sysctl parameters
+  ansible.builtin.copy:
+      dest: /etc/sysctl.d/kubernetes.conf
+      content: |
+          net.ipv4.ip_forward=1
 
-      sysctl --system,
+- name: Reload sysctl
+  ansible.builtin.command: sysctl --system
 
-- name: Install packages
-  tags:
-      - machine-prep
-  shell: |
-      apt-get update
-      apt-get install -y apt-transport-https ca-certificates curl gpg
+- name: Install required base packages
+  ansible.builtin.apt:
+      name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gpg
+      state: present
+      update_cache: yes
 
-- name: Install containerd runtime
-  tags:
-      - machine-prep
-  shell: |
-      apt update
-      apt install -y containerd
-      mkdir /etc/containerd
-      containerd config default > /etc/containerd/config.toml
-      systemctl restart containerd
-      systemctl enable containerd
+- name: Add containerd repo
+  ansible.builtin.apt_repository:
+      repo: "ppa:containerd/containerd"
+      state: present
+
+- name: Install containerd
+  ansible.builtin.apt:
+      name: containerd
+      state: latest
+      update_cache: yes
+
+- name: Ensure containerd config directory exists
+  file:
+      path: /etc/containerd
+      state: directory
+
+- name: Generate default containerd config if not exists
+  command: containerd config default
+  register: cont_config
+  changed_when: cont_config.stdout != ""
+  args:
+      creates: /etc/containerd/config.toml
+
+- name: Restart containerd
+  ansible.builtin.systemd:
+      name: containerd
+      state: restarted
+      enabled: yes
 
 - name: Download kubernetes repo key
   tags:
@@ -43,10 +69,19 @@
       curl -fsSL https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_version }}/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
       echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_version }}/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
-- name: Install kubelet, kubeadm and kubectl and pin version
-  tags:
-      - machine-prep
-  shell: |
-      apt-get update
-      apt-get install -y kubelet kubeadm kubectl
-      apt-mark hold kubelet kubeadm kubectl
+- name: Install Kubernetes components
+  ansible.builtin.apt:
+      name:
+          - kubelet
+          - kubeadm
+          - kubectl
+      state: present
+      update_cache: yes
+
+- name: Hold Kubernetes packages at installed version
+  ansible.builtin.apt:
+      name:
+          - kubelet
+          - kubeadm
+          - kubectl
+      state: hold
