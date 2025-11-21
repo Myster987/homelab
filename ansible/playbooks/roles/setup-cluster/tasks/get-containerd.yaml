@@ -1,4 +1,8 @@
 ---
+- name: Get system architecture
+  shell: dpkg --print-architecture
+  register: system_architecture
+
 - name: Download containerd
   get_url:
       url: "https://github.com/containerd/containerd/releases/download/v{{ containerd_version }}/containerd-{{ containerd_version }}-linux-{{ system_architecture.stdout }}.tar.gz"
@@ -44,4 +48,3 @@
       src: "/tmp/cni-plugins.tgz"
       dest: "{{ cni_bin_dir }}"
       remote_src: yes
-
