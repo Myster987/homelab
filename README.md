@@ -35,6 +35,44 @@ sudo apt install -y iptables-persistent
 sudo netfilter-persistent save
 ```
 
+### DHCP server
+
+```sh
+sudo apt update
+sudo apt install isc-dhcp-server
+```
+
+Config allowed dhcp ranges in this file: "/etc/dhcp/dhcpd.conf".
+Condig should look like this (range is variable):
+
+```
+subnet 10.10.10.0 netmask 255.255.255.0 {
+    range 10.10.10.x 10.10.10.y;
+    option routers 10.10.10.1;
+    option domain-name-servers 1.1.1.1, 8.8.8.8;
+    
+    # Example Static IP Reservations (set this after nodes are created)
+    host homelab-node-1 {
+        hardware ethernet aa:bb:cc:dd:ee:ff;
+        fixed-address 10.10.10.50;               
+    }
+
+    host homelab-node-2 {
+        hardware ethernet 11:22:33:44:55:66;
+        fixed-address 10.10.10.51;
+    }
+}
+```
+
+Set interface to "eth1" in "sudo nano /etc/default/isc-dhcp-server".
+
+And now start DHCP server:
+
+```sh
+sudo systemctl enable isc-dhcp-server
+sudo systemctl start isc-dhcp-server
+```
+
 ## 2. Cluster Nodes
 
 I like to make some kind of base template that I can easly clone later, so
