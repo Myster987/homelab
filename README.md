@@ -73,6 +73,25 @@ sudo systemctl enable isc-dhcp-server
 sudo systemctl start isc-dhcp-server
 ```
 
+## 1,5. Optional Step - Tailscale access to subnet
+
+When developing your homelab it's much more convinient to access your infrastructure 
+dirrectly. This is why this step is usefull. Install tailscale on your PC and router
+VM. Use tailscale dashboard to make this step easier (only for router).
+
+```sh
+curl -fsSL https://tailscale.com/install.sh | sh && sudo tailscale up --auth-key=your auth key generated in dashboard
+```
+
+Enable subnet advertising by using this command:
+
+```sh
+sudo tailscale set --advertise-routes=homelab network (in this case 10.10.10.0/24)
+```
+
+And approve it in tailscale UI, if it wasn't done automaticly. Detailed 
+documentation can be found [here](https://tailscale.com/kb/1019/subnets).
+
 ## 2. Cluster Nodes
 
 I like to make some kind of base template that I can easly clone later, so
