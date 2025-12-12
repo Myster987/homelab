@@ -1,9 +1,7 @@
 - import_tasks: check-config.yaml
 - import_tasks: gen-node-list.yaml
-# - import_tasks: render-hostname-patches.yaml
 - import_tasks: gen-cluster-config.yaml
 - import_tasks: apply-config.yaml
 - import_tasks: update-cli.yaml
 - import_tasks: try-bootstrap.yaml
-# - import_tasks: apply-hostname-patches.yaml
 - import_tasks: get-kubeconfig.yaml
