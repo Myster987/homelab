@@ -3,7 +3,7 @@
 Network (created in "Your node" -> System -> Network, don't forget to make it 
 autostart):
 - 192.168.1.x <-- home network (connected to physical port and existing gateway)
-- 10.10.10.x <-- homelab network (only CIDR 10.10.10.1)
+- 10.0.0.x <-- homelab network (only CIDR 10.0.0.1)
 
 # Nodes setup
 
@@ -11,7 +11,9 @@ autostart):
 
 Create VM that is connected to both networks (Proxmox -> Router vm -> Hardware
 -> Network Device -> add both of them). In cloud-init set static ip in homelab
-network to be 10.10.10.1 (as a gateway) and in home network dhcp can be used. \
+network to be 10.0.0.1 (as a gateway) and in home network dhcp can be used. \
+
+(Switch config)[https://community.ui.com/questions/UniFi-OS-Server-Installation-Scripts-or-UniFi-Network-Application-Installation-Scripts-or-UniFi-Eas/ccbc7530-dd61-40a7-82ec-22b17f027776]
 
 Next steps:
 
@@ -25,7 +27,7 @@ sudo sysctl -w net.ipv4.ip_forward=1
 ### NAT Masquerading
 
 ```sh
-sudo iptables -t nat -A POSTROUTING -o eth0 -s 10.10.10.0/24 -j MASQUERADE
+sudo iptables -t nat -A POSTROUTING -o eth0 -s 10.0.0.0/24 -j MASQUERADE
 ```
 
 ### Persist IP Tables
@@ -46,20 +48,20 @@ Config allowed dhcp ranges in this file: "/etc/dhcp/dhcpd.conf".
 Condig should look like this (range is variable):
 
 ```
-subnet 10.10.10.0 netmask 255.255.255.0 {
-    range 10.10.10.x 10.10.10.y;
-    option routers 10.10.10.1;
+subnet 10.0.0.0 netmask 255.255.255.0 {
+    range 10.0.0.x 10.0.0.y;
+    option routers 10.0.0.1;
     option domain-name-servers 1.1.1.1, 8.8.8.8;
     
     # Example Static IP Reservations (set this after nodes are created)
-    host homelab-node-1 {
+    host homelab-cp-1 {
         hardware ethernet aa:bb:cc:dd:ee:ff;
-        fixed-address 10.10.10.50;               
+        fixed-address 10.0.0.50;               
     }
 
-    host homelab-node-2 {
+    host homelab-cp-2 {
         hardware ethernet 11:22:33:44:55:66;
-        fixed-address 10.10.10.51;
+        fixed-address 10.0.0.51;
     }
 }
 ```
@@ -86,7 +88,7 @@ curl -fsSL https://tailscale.com/install.sh | sh && sudo tailscale up --auth-key
 Enable subnet advertising by using this command:
 
 ```sh
-sudo tailscale set --advertise-routes=homelab network (in this case 10.10.10.0/24)
+sudo tailscale set --advertise-routes=homelab network (in this case 10.0.0.0/24)
 ```
 
 And approve it in tailscale UI, if it wasn't done automaticly. Detailed 
@@ -94,15 +96,50 @@ documentation can be found [here](https://tailscale.com/kb/1019/subnets).
 
 ## 2. Cluster Nodes
 
-I like to make some kind of base template that I can easly clone later, so
-I use Ubuntu Cloud Image with 4 vCPUs and 6 GBs RAM (I don't have professional
-equipment - my old Dell laptop :D). Connect it to homelab network and in cloud-init
-set Gateway to be router vm ip in homelab network (10.10.10.1). Passing SSH public
-keys won't hurt and it will increase seciurity (**use public key from router vm
-because it will also work as our access point to the cluster!**). User name isn't
-importat, but we have to remember to make it the same on all nodes. So that's why I
-use cloud-init for convinience.
+Requirements:
+- [Ubuntu Cloud Image](https://cloud-images.ubuntu.com/noble/current) install it in **local storage** tab.
+- Free RAM and disk space on your proxmox machine
+- Hope and some sanity 😁
 
-If everything is setup correctly, it should be possible to ssh into router VM and 
-from it, ssh into cluster nodes. Why this architecure? Because we will use router
-vm to run our ansible code, to automaticly configure whole kubernetes cluster.
+### Create VM that will be used as a template 
+
+Any params can be used, this are just examples. Just make sure to update them accordingly.
+
+```sh
+qm create 9000 --name ubuntu-cloud --memory 1024 --cores 1
+```
+
+### Attach disk Image
+
+```sh
+ qm importdisk 9000 /var/lib/vz/template/iso/noble-server-cloudimg-amd64.img local-lvm
+```
+
+### Create VM disk
+
+```sh
+qm set 9000 --scsihw virtio-scsi-pci --virtio0 local-lvm:vm-9000-disk-0
+```
+
+### Resize disk as you connected
+
+```sh
+qm resize 9000 virtio0 10G
+```
+
+### Set correct boot order
+
+```sh
+qm set 9000 --boot order="ide2;virtio0"
+```
+
+### Set correct socket to se cloud-init output 
+
+```sh
+qm set 9000 --serial0 socket --vga serial0
+```
+
+### Go to this new VM in proxmox UI
+
+Now you can add cloud-init drive in hardware tab (set it to ide2, or any matching
+device name). Although I think that terraform will set it for you in later steps.

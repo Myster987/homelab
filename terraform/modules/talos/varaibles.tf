@@ -1,7 +1,3 @@
-variable "instances_count" {
-  type = number
-}
-
 variable "id" {
   type = number
 }
@@ -10,15 +6,7 @@ variable "name" {
   type = string
 }
 
-variable "desc" {
-  type = string
-}
-
 variable "target_node" {
-  type = string
-}
-
-variable "template_id" {
   type = string
 }
 
@@ -35,10 +23,17 @@ variable "balloon" {
 }
 
 variable "disk_size" {
-  type = number
+  type = string
 }
 
 variable "bridge" {
-  type    = string
-  default = "vmbr0"
+  type = string
+}
+
+variable "macaddr" {
+  type = string
+}
+
+variable "tag" {
+  type = number
 }

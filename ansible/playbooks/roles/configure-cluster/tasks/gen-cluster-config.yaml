@@ -2,14 +2,13 @@
 - name: Generate config for cluster (for talos)
   when: not stat_result.stat.exists
   ansible.builtin.command: |
-      talosctl gen config 
+      talosctl gen config
       {{ cluster_name }} https://{{ control_plane_ip }}:6443
-      --output-dir {{ config_directory }} 
+      --output-dir {{ config_directory }}
       --config-patch @{{ talos_directory }}/patches/allow-controlplane-workloads.yaml
       --config-patch @{{ talos_directory }}/patches/allow-unpacked-layers.yaml
-      --config-patch @{{ talos_directory }}/patches/correct-installation-disk.yaml
       --config-patch @{{ talos_directory }}/patches/resolve-member-names.yaml
-      --config-patch @{{ talos_directory }}/patches/disable-kube-proxy-and-cni.yaml
+      --config-patch @{{ talos_directory }}/patches/correct-installation-disk.yaml
   changed_when: true
   register: install_output
   tags:

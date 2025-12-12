@@ -16,4 +16,4 @@ all.yaml
 crash.log
 crash.*.log
 
-kubeconfig
+kubeconfig.yaml

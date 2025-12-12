@@ -1,0 +1,5 @@
+- name: Setup all cluster prerequisite
+  hosts: localhost
+  gather_facts: false
+  roles:
+      - configure-cluster

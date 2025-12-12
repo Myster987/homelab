@@ -1,1 +1,1 @@
-- import_playbook: configure-cluster.yaml
+- import_playbook: prerequisite.yaml

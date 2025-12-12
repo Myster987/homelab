@@ -3,7 +3,7 @@
   set_fact:
       node_list: >-
           {{
-            groups[cluster_inventory_name] | map('extract', hostvars) | list
+            groups['kubernetes'] | map('extract', hostvars) | list
           }}
   tags:
       - gen-node-list
@@ -18,7 +18,7 @@
 - name: Generate hostname metadata
   set_fact:
       processed_nodes: "{{ processed_nodes + [ {
-          'hostname': 'cp-' ~ '%02d' | format(index + 1),
+          'hostname': 'homelab-cp-' ~ '%d' | format(index + 1),
           'ip': item.ansible_host,
           'inventory_hostname': item.inventory_hostname } ] }}"
   loop: "{{ node_list }}"

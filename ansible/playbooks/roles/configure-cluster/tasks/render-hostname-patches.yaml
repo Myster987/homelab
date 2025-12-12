@@ -1,5 +1,5 @@
 # Render patches to later apply after nodes are created
-- name: Render cluster hostname patch templates
+- name: Render cluster hostname and VIP patch templates
   template:
       src: "{{ templates_directory }}/set-hostname.yaml.j2"
       dest: "{{ talos_directory }}/patches/generated/{{ item.hostname }}.yaml"
