@@ -1,14 +1,14 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
+apiVersion: kustomize.config.k8s.io/v1
 kind: Kustomization
 resources:
     - gotk-components.yaml
     - gotk-sync.yaml
-    - cilium.yaml
-    - traefik-crds.yaml
-    - ingress.yaml
-    - cloudflare.yaml
-    - local-path-provisioner.yaml
-    - cloudnative-pg.yaml
-    - redis.yaml
-    - databases.yaml
-    - spegel.yaml
+    # - cilium.yaml
+    # - traefik-crds.yaml
+    # - ingress.yaml
+    # - cloudflare.yaml
+    # - local-path-provisioner.yaml
+    # - cloudnative-pg.yaml
+    # - redis.yaml
+    # - databases.yaml
+    # - spegel.yaml

@@ -30,9 +30,9 @@ In Network tab I created Homelab VLAN and reserved DHCP range for it.
 
 ## Nodes setup
 
-I create VMs using instruction found in `terraform` module. Now I know MAC 
-addresses of my VMs so I can reserve static IPs for them in my Homelab network.
-When it comes to raspberry pi just go to [talos factory](https://factory.talos.dev/)
+I create VMs using instruction found in `terraform` module. Because now I know MAC 
+addresses of my nodes so I can reserve static IPs for them in my Homelab network.
+When it comes to raspberry pi, just go to [talos factory](https://factory.talos.dev/)
 and select single-board computer, flash disk image on SD card or SSD if you have
 one and boot raspberry pi while it's connected to switch. I also change settings
 on port, so that my pi is only accepting traffic with my VLAN tag.
