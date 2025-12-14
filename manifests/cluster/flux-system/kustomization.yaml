@@ -11,4 +11,4 @@ resources:
     # - cloudnative-pg.yaml
     # - redis.yaml
     # - databases.yaml
-    - spegel.yaml
+    # - spegel.yaml
