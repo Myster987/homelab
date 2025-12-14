@@ -38,5 +38,5 @@ releases:
                 autoMount:
                     enabled: true
                 hostRoot: /sys/fs/cgroup
-            k8sServiceHost: 192.168.1.30
+            k8sServiceHost: 10.0.0.10
             k8sServicePort: "6443"
