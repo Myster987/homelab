@@ -5,7 +5,7 @@ resources:
     - gotk-sync.yaml
     - cilium.yaml
     # - traefik-crds.yaml
-    - ingress.yaml
+    # - ingress.yaml
     # - cloudflare.yaml
     - local-path-provisioner.yaml
     # - cloudnative-pg.yaml

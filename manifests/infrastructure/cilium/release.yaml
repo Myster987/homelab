@@ -46,5 +46,5 @@ spec:
             autoMount:
                 enabled: true
             hostRoot: /sys/fs/cgroup
-        k8sServiceHost: 10.0.0.10
+        k8sServiceHost: auto
         k8sServicePort: "6443"
