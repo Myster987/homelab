@@ -27,34 +27,34 @@ spec:
         name: flux-system
     targetNamespace: traefik
 ---
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-    name: cert-manager
-    namespace: flux-system
-spec:
-    interval: 30m
-    path: ./manifests/infrastructure/cert-manager
-    prune: true
-    sourceRef:
-        kind: GitRepository
-        name: flux-system
-    targetNamespace: cert-manager
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-    name: cluster-issuer
-    namespace: flux-system
-spec:
-    interval: 30m
-    path: ./manifests/infrastructure/cluster-issuer
-    prune: true
-    sourceRef:
-        kind: GitRepository
-        name: flux-system
-    healthChecks:
-        - apiVersion: helm.toolkit.fluxcd.io/v2beta1
-          kind: HelmRelease
-          name: cert-manager
-          namespace: cert-manager
+# apiVersion: kustomize.toolkit.fluxcd.io/v1
+# kind: Kustomization
+# metadata:
+#     name: cert-manager
+#     namespace: flux-system
+# spec:
+#     interval: 30m
+#     path: ./manifests/infrastructure/cert-manager
+#     prune: true
+#     sourceRef:
+#         kind: GitRepository
+#         name: flux-system
+#     targetNamespace: cert-manager
+# ---
+# apiVersion: kustomize.toolkit.fluxcd.io/v1
+# kind: Kustomization
+# metadata:
+#     name: cluster-issuer
+#     namespace: flux-system
+# spec:
+#     interval: 30m
+#     path: ./manifests/infrastructure/cluster-issuer
+#     prune: true
+#     sourceRef:
+#         kind: GitRepository
+#         name: flux-system
+#     healthChecks:
+#         - apiVersion: helm.toolkit.fluxcd.io/v2beta1
+#           kind: HelmRelease
+#           name: cert-manager
+#           namespace: cert-manager
