@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
     - repository.yaml
     - release.yaml
-    - hubble-dashboard.yaml
+    # - hubble-dashboard.yaml
