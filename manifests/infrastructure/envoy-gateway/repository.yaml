@@ -4,5 +4,5 @@ metadata:
     name: envoy-gateway
     namespace: flux-system
 spec:
-    interval: 15m
-    url: https://charts.getenvoy.io
+    interval: 1h
+    url: https://charts.envoyproxy.io
