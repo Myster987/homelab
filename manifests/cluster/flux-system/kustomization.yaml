@@ -6,7 +6,7 @@ resources:
     - cilium.yaml
     - envoy-gateway.yaml
     # - traefik-crds.yaml
-    # - ingress.yaml
+    - ingress.yaml
     # - cloudflare.yaml
     - local-path-provisioner.yaml
     # - cloudnative-pg.yaml
