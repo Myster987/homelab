@@ -2,7 +2,7 @@ apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
     name: envoy-gateway
-    namespace: flux-system
+    namespace: envoy-gateway
 spec:
     interval: 1h
     url: https://charts.envoyproxy.io
