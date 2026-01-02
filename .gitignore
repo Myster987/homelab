@@ -17,3 +17,5 @@ crash.log
 crash.*.log
 
 kubeconfig.yaml
+
+age.agekey

@@ -1,0 +1,20 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+    name: envoy-gateway
+    namespace: envoy-system
+spec:
+    interval: 5m
+    chart:
+        spec:
+            chart: envoy-gateway
+            sourceRef:
+                kind: HelmRepository
+                name: envoy-gateway
+                namespace: flux-system
+            version: 1.6.1
+    values:
+        envoy:
+            gateway:
+                service:
+                    type: LoadBalancer

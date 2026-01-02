@@ -1,6 +1,5 @@
 creation_rules:
     - path_regex: manifests/.*\.yaml
       encrypted_regex: ^(data|stringData)$
-      pgp: >-
-          90CD2659E01438F54A298759396BBB691304AE0A,
-          D42BCD76A5CFBBB7D7D576D1E1431177313EFCF0
+      age:
+          - age1hl26th0hzlghpj2rmgxuxt0eqmdvngw76pq8q5tp3mw0yxkmmvqq67khw8

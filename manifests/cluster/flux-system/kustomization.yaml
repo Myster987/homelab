@@ -4,8 +4,9 @@ resources:
     - gotk-components.yaml
     - gotk-sync.yaml
     - cilium.yaml
-    - traefik-crds.yaml
-    - ingress.yaml
+    - envoy-gateway.yaml
+    # - traefik-crds.yaml
+    # - ingress.yaml
     # - cloudflare.yaml
     - local-path-provisioner.yaml
     # - cloudnative-pg.yaml
