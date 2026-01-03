@@ -5,14 +5,31 @@ metadata:
 spec:
     controllerName: gateway.envoyproxy.io/gatewayclass-controller
 ---
+# Edge - stands between the Internet and my cluster
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-    name: homelab-gateway
-    namespace: default
+    name: edge
+    namespace: envoy-gateway
 spec:
     gatewayClassName: envoy-gateway
     listeners:
         - name: http
           port: 80
           protocol: HTTP
+          allowedRoutes:
+              namespaces:
+                  from: All
+---
+# Owns edge gateway used to expose cluster to http connections
+apiVersion: v1
+kind: Service
+metadata:
+    name: envoy-edge
+    namespace: envoy-gateway
+spec:
+    selector:
+        gateway.envoyproxy.io/owning-gateway-name: edge
+    ports:
+        - port: 80
+          targetPort: 80
