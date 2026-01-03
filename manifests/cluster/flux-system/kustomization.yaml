@@ -4,7 +4,7 @@ resources:
     - gotk-components.yaml
     - gotk-sync.yaml
     - cilium.yaml
-    # - envoy-gateway.yaml
+    - envoy-gateway.yaml
     - metallb.yaml
     # - cert-manager.yaml
     # - cloudflare.yaml
