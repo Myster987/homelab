@@ -9,6 +9,7 @@
       --config-patch @{{ talos_directory }}/patches/allow-unpacked-layers.yaml
       --config-patch @{{ talos_directory }}/patches/resolve-member-names.yaml
       --config-patch @{{ talos_directory }}/patches/correct-installation-disk.yaml
+      --config-patch @{{ talos_directory }}/patches/disable-kube-proxy.yaml
   changed_when: true
   register: install_output
   tags:

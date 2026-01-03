@@ -40,6 +40,17 @@ export GITHUB_USER=your-username
 export GITHUB_TOKEN=your-token
 ```
 
+Enable gateway API for cilium:
+
+```sh
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.0/config/crd/standard/gateway.networking.k8s.io_gatewayclasses.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.0/config/crd/standard/gateway.networking.k8s.io_gateways.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.0/config/crd/standard/gateway.networking.k8s.io_httproutes.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.0/config/crd/standard/gateway.networking.k8s.io_referencegrants.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.0/config/crd/standard/gateway.networking.k8s.io_grpcroutes.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.0/config/crd/experimental/gateway.networking.k8s.io_tlsroutes.yaml
+```
+
 Bootstrap command:
 
 ```sh
@@ -50,4 +61,27 @@ flux bootstrap github \
   --path=./manifests/cluster \
   --personal \
   --kubeconfig=./kubeconfig.yaml
+```
+
+## Encryption
+
+Create or use existing age key.
+
+```sh
+age-keygen -o age.agekey
+```
+
+Create secret in kubernetes:
+
+```sh
+cat age.agekey |
+kubectl create secret generic sops-age \
+--namespace=flux-system \
+--from-file=age.agekey=/dev/stdin
+```
+
+I use this sops-age command to decrypt files which is just simple:
+
+```sh
+alias sops-age="export SOPS_AGE_KEY_FILE=./age.agekey && sops"
 ```

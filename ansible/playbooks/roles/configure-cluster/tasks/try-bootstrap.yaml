@@ -1,7 +1,7 @@
 - name: Keep trying to bootstrap
-  ansible.builtin.command: talosctl bootstrap --talosconfig {{ config_file }}
+  ansible.builtin.command: talosctl bootstrap -n {{ control_plane_ip }} --talosconfig {{ config_file }}
   register: bootstrap_result
-  retries: 10
+  retries: 5
   delay: 30
   until: bootstrap_result.rc == 0
   tags:

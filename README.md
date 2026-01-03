@@ -97,26 +97,3 @@ Set correct socket to se cloud-init output:
 ```sh
 qm set 9000 --serial0 socket --vga serial0
 ```
-
-## Encryption
-
-Create or use existing age key.
-
-```sh
-age-keygen -o age.agekey
-```
-
-Create secret in kubernetes:
-
-```sh
-cat age.agekey |
-kubectl create secret generic sops-age \
---namespace=flux-system \
---from-file=age.agekey=/dev/stdin
-```
-
-I use this sops-age command to decrypt files which is just simple:
-
-```sh
-alias sops-age="export SOPS_AGE_KEY_FILE=./age.agekey && sops"
-```
