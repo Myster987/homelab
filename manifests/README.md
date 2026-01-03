@@ -80,3 +80,9 @@ I use this sops-age command to decrypt files which is just simple:
 ```sh
 alias sops-age="export SOPS_AGE_KEY_FILE=./age.agekey && sops"
 ```
+
+## Cloudflare tunnel
+
+To setup cloudflare tunnel follow [this guide](https://artifacthub.io/packages/helm/community-charts/cloudflared).
+When tunnel is created it stores tokens and certs in this directory: `~/.cloudflared`.
+Don't forget to later encrypt them with sops!
