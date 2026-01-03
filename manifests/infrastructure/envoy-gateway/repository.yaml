@@ -5,4 +5,4 @@ metadata:
     namespace: envoy-gateway
 spec:
     interval: 1h
-    url: https://charts.envoyproxy.io
+    url: https://docker.io/envoyproxy
