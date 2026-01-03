@@ -5,5 +5,4 @@ metadata:
     namespace: envoy-gateway
 spec:
     interval: 1h
-    type: oci
-    url: https://docker.io/envoyproxy
+    url: https://envoyproxy.github.io/gateway-helm
