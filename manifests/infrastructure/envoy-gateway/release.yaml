@@ -16,3 +16,9 @@ spec:
     values:
         service:
             type: LoadBalancer
+        global:
+            images:
+                envoyGateway:
+                    image: "docker.io/envoyproxy/envoy-gateway:latest"
+                    pullPolicy: IfNotPresent
+
