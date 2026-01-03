@@ -5,7 +5,7 @@ metadata:
     name: cloudflare-tunnel-remote
     namespace: cloudflare
 spec:
-    interval: 15m
+    interval: 30m
     chart:
         spec:
             chart: cloudflare-tunnel-remote
@@ -18,6 +18,5 @@ spec:
     values:
         ingress:
             - hostname: "*.mikolajmaciejak.dev"
-              service: https://traefik.kube-system.svc.cluster.local:443
-              noTLSVerify: true
+              service: https://envoy-edge.envoy-gateway.svc.cluster.local:80
             - service: http_status:404
