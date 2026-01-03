@@ -17,6 +17,6 @@ spec:
         crds: Skip
     upgrade:
         crds: Skip
-    values:
-        service:
-            type: LoadBalancer
+    # values:
+    #     service:
+    #         type: LoadBalancer
