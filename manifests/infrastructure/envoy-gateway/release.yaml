@@ -14,10 +14,5 @@ spec:
                 namespace: envoy-gateway
             version: 1.6.1
     values:
-        config:
-            envoyGateway:
-                gateway:
-                    controllerName: gateway.envoyproxy.io/gatewayclass-controller
-
         service:
             type: LoadBalancer
