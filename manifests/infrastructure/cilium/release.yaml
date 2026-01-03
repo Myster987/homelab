@@ -48,3 +48,5 @@ spec:
             hostRoot: /sys/fs/cgroup
         k8sServiceHost: localhost
         k8sServicePort: "7445"
+        gatewayAPI:
+            enabled: false
