@@ -43,7 +43,7 @@ export GITHUB_TOKEN=your-token
 Enable gateway API for cilium:
 
 ```sh
-kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.4.0/experimental-install.yaml --server-side
+kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.4.1/standard-install.yaml  
 ```
 
 Bootstrap command:
