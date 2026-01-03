@@ -2,7 +2,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
     name: envoy-gateway
-    namespace: envoy-gateway-system
+    namespace: envoy-gateway
 spec:
     interval: 15m
     chart:
@@ -10,7 +10,7 @@ spec:
             chart: gateway-helm
             sourceRef:
                 kind: HelmRepository
-                name: envoy-gateway
+                name: envoy-gateway-repo
                 namespace: envoy-gateway
             version: ">= 1.6.0"
     install:
