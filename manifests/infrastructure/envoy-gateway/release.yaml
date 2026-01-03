@@ -18,6 +18,5 @@ spec:
     upgrade:
         crds: Skip
     values:
-        createNamespace: true
         service:
             type: LoadBalancer
