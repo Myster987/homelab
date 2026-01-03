@@ -7,12 +7,12 @@ spec:
     interval: 15m
     chart:
         spec:
-            chart: envoy-helm
+            chart: envoy-gateway
             sourceRef:
                 kind: HelmRepository
                 name: envoy-gateway
                 namespace: envoy-gateway
-            version: 1.6.1
+            version: ">=1.5.0"
     values:
         service:
             type: LoadBalancer
