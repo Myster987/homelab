@@ -12,13 +12,11 @@ spec:
                 kind: HelmRepository
                 name: envoy-gateway
                 namespace: envoy-gateway
-            version: ">=1.5.0"
+            version: ">=1.6.0"
+    install:
+        crds: Skip
+    upgrade:
+        crds: Skip
     values:
         service:
             type: LoadBalancer
-        config:
-            envoyGateway:
-                provider:
-                    kubernetes:
-                        deploy:
-                            type: GatewayNamespace
