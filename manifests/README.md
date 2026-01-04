@@ -83,6 +83,7 @@ alias sops-age="export SOPS_AGE_KEY_FILE=./age.agekey && sops"
 
 ## Cloudflare tunnel
 
-To setup cloudflare tunnel follow [this guide](https://artifacthub.io/packages/helm/community-charts/cloudflared).
-When tunnel is created it stores tokens and certs in this directory: `~/.cloudflared`.
-Don't forget to later encrypt them with sops!
+Simply create tunnel in Cloudflare dashboard. Copy token and put it in secretes.
+When tunnel is created set in routes settings to route to: http://envoy-edge.envoy-gateway.svc.cluster.local:80
+(Just match your gateway). Add CNAM record with NAME: * and point it to 
+tunnel-ID.cfargotunnel.com in DNS settings.
