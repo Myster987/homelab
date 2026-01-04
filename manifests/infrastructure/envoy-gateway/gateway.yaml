@@ -20,7 +20,6 @@ spec:
               namespaces:
                   from: All
 ---
-# Pretty-named service that automatically finds the Envoy Gateway pods
 apiVersion: v1
 kind: Service
 metadata:
