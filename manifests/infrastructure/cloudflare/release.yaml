@@ -17,9 +17,11 @@ spec:
             interval: 2h
     values:
         managed:
-            enabled: true
-            existingSecret: cloudflared-token
+            enabled: false
         local:
+            enabled: true
+            auth:
+                existingSecret: cloudflare-tunnel-secrets
             ingress:
                 - hostname: "*.mikolajmaciejak.dev"
                   service: https://envoy-edge.envoy-gateway.svc.cluster.local:80
