@@ -41,8 +41,6 @@ spec:
             enabled: false
         local:
             enabled: true
-            auth:
-                existingSecret: cloudflare-tunnel-secrets
             ingress:
                 - hostname: "*.mikolajmaciejak.dev"
                   service: http://envoy-edge.envoy-gateway.svc.cluster.local:80
