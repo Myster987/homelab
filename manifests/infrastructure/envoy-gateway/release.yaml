@@ -19,4 +19,4 @@ spec:
         crds: Skip
     values:
         service:
-            type: ClusterIP
+            type: LoadBalancer

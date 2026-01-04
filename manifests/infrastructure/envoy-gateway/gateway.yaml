@@ -5,15 +5,31 @@ metadata:
 spec:
     controllerName: gateway.envoyproxy.io/gatewayclass-controller
 ---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyProxy
+metadata:
+    name: edge-proxy-config
+    namespace: envoy-gateway
+spec:
+    provider:
+        type: Kubernetes
+        kubernetes:
+            envoyService:
+                type: LoadBalancer
+                name: envoy-edge
+---
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
     name: edge
     namespace: envoy-gateway
-    annotations:
-        gateway.envoyproxy.io/envoy-service-name: envoy-edge
 spec:
     gatewayClassName: envoy-gateway
+    infrastructure:
+        parametersRef:
+            group: gateway.envoyproxy.io
+            kind: EnvoyProxy
+            name: edge-proxy-config
     listeners:
         - name: http
           port: 80
