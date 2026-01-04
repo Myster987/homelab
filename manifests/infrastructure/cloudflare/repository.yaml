@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-    name: cloudflare-tunnel-remote
+    name: cloudflare-tunnel
     namespace: cloudflare
 spec:
     interval: 30m
