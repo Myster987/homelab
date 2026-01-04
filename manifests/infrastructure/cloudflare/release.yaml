@@ -59,7 +59,7 @@ spec:
     chart:
         spec:
             chart: cloudflare-tunnel
-            version: 0.1.2
+            version: ">= 0.1.0"
             sourceRef:
                 kind: HelmRepository
                 name: cloudflare
@@ -71,3 +71,5 @@ spec:
           targetPath: cloudflare.tunnelToken
     values:
         replicas: 1
+        image:
+            tag: 2025.7.0
