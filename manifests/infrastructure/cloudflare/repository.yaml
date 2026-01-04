@@ -1,9 +1,18 @@
+# ---
+# apiVersion: source.toolkit.fluxcd.io/v1beta2
+# kind: HelmRepository
+# metadata:
+#     name: cloudflare-tunnel
+#     namespace: cloudflare
+# spec:
+#     interval: 30m
+#     url: https://charts.kubito.dev
 ---
-apiVersion: source.toolkit.fluxcd.io/v1beta2
+apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-    name: cloudflare-tunnel
+    name: cloudflare
     namespace: cloudflare
 spec:
-    interval: 30m
-    url: https://charts.kubito.dev
+    interval: 1h
+    url: https://cloudflare.github.io/helm-charts

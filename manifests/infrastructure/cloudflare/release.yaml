@@ -1,3 +1,54 @@
+# apiVersion: helm.toolkit.fluxcd.io/v2
+# kind: HelmRelease
+# metadata:
+#     name: cloudflare-tunnel
+#     namespace: cloudflare
+# spec:
+#     interval: 30m
+
+#     chart:
+#         spec:
+#             chart: cloudflared
+#             version: 1.7.4
+#             sourceRef:
+#                 kind: HelmRepository
+#                 name: cloudflare-tunnel
+#                 namespace: cloudflare
+
+#     valuesFrom:
+#         - kind: Secret
+#           name: cloudflare-tunnel-secrets
+#           valuesKey: tunnelID
+#           targetPath: local.auth.tunnelID
+
+#         - kind: Secret
+#           name: cloudflare-tunnel-secrets
+#           valuesKey: accountTag
+#           targetPath: local.auth.accountTag
+
+#         - kind: Secret
+#           name: cloudflare-tunnel-secrets
+#           valuesKey: tunnelName
+#           targetPath: local.auth.tunnelName
+
+#         - kind: Secret
+#           name: cloudflare-tunnel-secrets
+#           valuesKey: tunnelSecret
+#           targetPath: local.auth.tunnelSecret
+
+#     values:
+#         managed:
+#             enabled: false
+#         local:
+#             enabled: true
+#             ingress:
+#                 - hostname: "*.mikolajmaciejak.dev"
+#                   service: http://envoy-edge.envoy-gateway.svc.cluster.local:80
+#                   originRequest:
+#                       noTLSVerify: true
+#                 - service: http_status:404
+
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -5,45 +56,18 @@ metadata:
     namespace: cloudflare
 spec:
     interval: 30m
-
     chart:
         spec:
-            chart: cloudflared
-            version: 1.7.4
+            chart: cloudflare-tunnel-remote
+            version: 0.3.0
             sourceRef:
                 kind: HelmRepository
-                name: cloudflare-tunnel
+                name: cloudflare
                 namespace: cloudflare
-
     valuesFrom:
         - kind: Secret
           name: cloudflare-tunnel-secrets
-          valuesKey: tunnelID
-          targetPath: local.auth.tunnelID
-
-        - kind: Secret
-          name: cloudflare-tunnel-secrets
-          valuesKey: accountTag
-          targetPath: local.auth.accountTag
-
-        - kind: Secret
-          name: cloudflare-tunnel-secrets
-          valuesKey: tunnelName
-          targetPath: local.auth.tunnelName
-
-        - kind: Secret
-          name: cloudflare-tunnel-secrets
-          valuesKey: tunnelSecret
-          targetPath: local.auth.tunnelSecret
-
+          valuesKey: tunnelToken
+          targetPath: cloudflare.tunnelToken
     values:
-        managed:
-            enabled: false
-        local:
-            enabled: true
-            ingress:
-                - hostname: "*.mikolajmaciejak.dev"
-                  service: http://envoy-edge.envoy-gateway.svc.cluster.local:80
-                  originRequest:
-                      noTLSVerify: true
-                - service: http_status:404
+        replicas: 1
