@@ -43,7 +43,7 @@ spec:
             enabled: true
             ingress:
                 - hostname: "*.mikolajmaciejak.dev"
-                  service: http://envoy-envoy-gateway-edge-3c5a5f12.envoy-gateway.svc.cluster.local:80
+                  service: http://envoy-edge.envoy-gateway.svc.cluster.local:80
                   originRequest:
                       noTLSVerify: true
                 - service: http_status:404
