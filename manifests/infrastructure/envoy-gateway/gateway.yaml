@@ -5,19 +5,6 @@ metadata:
 spec:
     controllerName: gateway.envoyproxy.io/gatewayclass-controller
 ---
-apiVersion: gateway.envoyproxy.io/v1alpha1
-kind: EnvoyProxy
-metadata:
-    name: edge-proxy-config
-    namespace: envoy-gateway
-spec:
-    provider:
-        type: Kubernetes
-        kubernetes:
-            envoyService:
-                type: LoadBalancer
-                name: envoy-edge
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
@@ -25,11 +12,6 @@ metadata:
     namespace: envoy-gateway
 spec:
     gatewayClassName: envoy-gateway
-    infrastructure:
-        parametersRef:
-            group: gateway.envoyproxy.io
-            kind: EnvoyProxy
-            name: edge-proxy-config
     listeners:
         - name: http
           port: 80
@@ -37,3 +19,20 @@ spec:
           allowedRoutes:
               namespaces:
                   from: All
+---
+# Pretty-named service that automatically finds the Envoy Gateway pods
+apiVersion: v1
+kind: Service
+metadata:
+    name: envoy-edge
+    namespace: envoy-gateway
+spec:
+    type: LoadBalancer
+    selector:
+        gateway.envoyproxy.io/owning-gateway-name: edge
+        gateway.envoyproxy.io/owning-gateway-namespace: envoy-gateway
+    ports:
+        - name: http
+          port: 80
+          targetPort: 10080
+          protocol: TCP
