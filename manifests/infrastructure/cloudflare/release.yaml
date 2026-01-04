@@ -14,5 +14,6 @@ spec:
                 name: cloudflared-repo
                 namespace: cloudflare
     values:
+        replicaCount: 2
         managed:
             existingSecret: cloudflare-tunnel-secrets
