@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
     - cluster-issuer.yaml
     - certificate/production-mikolajmaciejak-dev-certificate.yaml
+    - secretes.yaml
