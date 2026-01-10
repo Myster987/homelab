@@ -6,11 +6,11 @@ resources:
   - cilium.yaml
   - envoy-gateway.yaml
   - metallb.yaml
-  # - cert-manager.yaml
-  # - cluster-issuer.yaml
-  # - cloudflare.yaml
+  - cert-manager.yaml
+  - cluster-issuer.yaml
+  - cloudflare.yaml
   - local-path-provisioner.yaml
   # - cloudnative-pg.yaml
   # - redis.yaml
   # - databases.yaml
-  # - spegel.yaml
+  - spegel.yaml
