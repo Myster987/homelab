@@ -1,5 +1,15 @@
 creation_rules:
-    - path_regex: manifests/.*\.yaml
-      encrypted_regex: ^(data|stringData)$
-      age:
-          - age1hl26th0hzlghpj2rmgxuxt0eqmdvngw76pq8q5tp3mw0yxkmmvqq67khw8
+  - path_regex: manifests/.*\.yaml
+    encrypted_regex: ^(data|stringData)$
+    age:
+      - age1hl26th0hzlghpj2rmgxuxt0eqmdvngw76pq8q5tp3mw0yxkmmvqq67khw8
+
+  - path_regex: talosconfig
+    encrypted_regex: "^(ca|crt|key)$"
+    age:
+      - age1hl26th0hzlghpj2rmgxuxt0eqmdvngw76pq8q5tp3mw0yxkmmvqq67khw8
+
+  - path_regex: kubeconfig.yaml
+    encrypted_regex: "^(client-certificate-data|client-key-data|token|password|username)$"
+    age:
+      - age1hl26th0hzlghpj2rmgxuxt0eqmdvngw76pq8q5tp3mw0yxkmmvqq67khw8

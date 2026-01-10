@@ -1,6 +1,6 @@
 .env
 
-talos/config/*
+talos/config/*.yaml
 talos/patches/generated/*
 
 inventory.ini
@@ -15,7 +15,5 @@ all.yaml
 
 crash.log
 crash.*.log
-
-kubeconfig.yaml
 
 age.agekey
