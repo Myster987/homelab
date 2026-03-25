@@ -1,6 +1,8 @@
 # My setup
 
-My personal homelab setup with detailed description how everything works.
+My personal homelab setup with detailed description how everything works. My plan
+is to make this repo easy to deploy and reproduce if needed. Some design choises
+are bad, but this isn't production grad, so it's fine.
 
 ## Network
 
