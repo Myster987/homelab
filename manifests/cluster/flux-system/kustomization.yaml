@@ -9,7 +9,7 @@ resources:
   # - metallb.yaml
   - cert-manager.yaml
   - cluster-issuer.yaml
-  # - cloudflare.yaml
+  - cloudflare.yaml
   - local-path-provisioner.yaml
   # - cloudnative-pg.yaml
   # - redis.yaml
