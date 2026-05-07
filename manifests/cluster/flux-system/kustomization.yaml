@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - gotk-components.yaml
   - gotk-sync.yaml
+  - gateway-api-crds.yaml
   - cilium.yaml
   # - envoy-gateway.yaml
   # - metallb.yaml
