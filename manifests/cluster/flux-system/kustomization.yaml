@@ -6,8 +6,8 @@ resources:
   - cilium.yaml
   # - envoy-gateway.yaml
   # - metallb.yaml
-  # - cert-manager.yaml
-  # - cluster-issuer.yaml
+  - cert-manager.yaml
+  - cluster-issuer.yaml
   # - cloudflare.yaml
   - local-path-provisioner.yaml
   # - cloudnative-pg.yaml

@@ -3,7 +3,8 @@ apiVersion: "cilium.io/v2alpha1"
 kind: CiliumLoadBalancerIPPool
 metadata:
   name: homelab-ip-pool
-  namespace: kube-system
+  namespace: networking
 spec:
   blocks:
-    - cidr: "10.0.0.200/28"
+    - start: "10.0.0.201"
+      stop: "10.0.0.255"

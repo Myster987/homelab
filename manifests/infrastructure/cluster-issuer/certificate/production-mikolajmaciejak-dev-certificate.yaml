@@ -1,13 +1,13 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-    name: mikolajmaciejak-dev-certificate
-    namespace: envoy-gateway
+  name: mikolajmaciejak-dev-certificate
+  namespace: networking
 spec:
-    secretName: mikolajmaciejak-dev-cert-tls
-    issuerRef:
-        name: cloudflare-cluster-issuer
-        kind: ClusterIssuer
-    dnsNames:
-        - "mikolajmaciejak.dev"
-        - "*.mikolajmaciejak.dev"
+  secretName: mikolajmaciejak-dev-cert-tls
+  issuerRef:
+    name: cloudflare-cluster-issuer
+    kind: ClusterIssuer
+  dnsNames:
+    - "mikolajmaciejak.dev"
+    - "*.mikolajmaciejak.dev"
