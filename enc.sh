@@ -12,5 +12,6 @@ if [ ! -f "$FILE" ]; then echo "Error: $FILE not found" >&2; exit 1; fi
 PUBKEY=$(grep "# public key:" "$KEY" | awk '{print $NF}')
 if [ -z "$PUBKEY" ]; then echo "Error: could not extract public key from $KEY" >&2; exit 1; fi
 
-sops --encrypt --in-place --input-type yaml --output-type yaml --age "$PUBKEY" "$FILE"
-echo "Encrypted -> $FILE.enc"
+OUTFILE="${FILE}.enc"
+sops --encrypt --input-type yaml --output-type yaml --age "$PUBKEY" "$FILE" > "$OUTFILE"
+echo "Encrypted -> $OUTFILE"

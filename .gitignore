@@ -17,3 +17,7 @@ crash.log
 crash.*.log
 
 age.agekey
+
+*.dec
+kubeconfig.yaml
+talosconfig
