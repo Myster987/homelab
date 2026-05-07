@@ -67,7 +67,7 @@ helm install \
     --set k8sServicePort=7445 \
     --set gatewayAPI.enabled=true \
     --set l2announcements.enabled=true \
-    --kubeconfig=<(./dec ./kubeconfig.yaml)
+    --kubeconfig=./kubeconfig.yaml
 ```
 
 Bootstrap command:
@@ -79,7 +79,7 @@ flux bootstrap github \
   --branch=main \
   --path=./manifests/cluster \
   --personal \
-  --kubeconfig=<(./dec ./kubeconfig.yaml)
+  --kubeconfig=./kubeconfig.yaml
 ```
 
 ## Encryption
