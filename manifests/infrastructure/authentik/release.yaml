@@ -18,9 +18,11 @@ spec:
     authentik:
       error_reporting:
         enabled: false
+      postgresql:
+        host: "authentik-pg-rw"
 
     postgresql:
-      enabled: true
+      enabled: false
 
     redis:
       enabled: true
@@ -41,10 +43,6 @@ spec:
       valuesKey: secret_key
       targetPath: authentik.secret_key
     - kind: Secret
-      name: authentik-secret
-      valuesKey: postgresql_password
+      name: authentik-db-secret
+      valuesKey: password
       targetPath: authentik.postgresql.password
-    - kind: Secret
-      name: authentik-secret
-      valuesKey: postgresql_password
-      targetPath: postgresql.auth.password

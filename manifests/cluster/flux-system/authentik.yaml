@@ -17,3 +17,4 @@ spec:
   dependsOn:
     - name: cilium
     - name: cluster-issuer
+    - name: cloudnative-pg
