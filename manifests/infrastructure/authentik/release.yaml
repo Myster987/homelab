@@ -26,8 +26,14 @@ spec:
       enabled: true
 
     server:
-      ingress:
-        enabled: false
+      route:
+        main:
+          enabled: true
+          hostnames:
+            - authentik.mikolajmaciejak.dev
+          parentRefs:
+            - name: edge
+              namespace: networking
 
   valuesFrom:
     - kind: Secret
