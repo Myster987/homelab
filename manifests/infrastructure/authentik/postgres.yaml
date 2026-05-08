@@ -13,7 +13,3 @@ spec:
       owner: authentik
       secret:
         name: authentik-db-secret
-
-  postgresql:
-    parameters:
-      max_connections: "100"

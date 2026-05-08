@@ -6,4 +6,5 @@ resources:
   - repository.yaml
   - secrets.yaml
   - release.yaml
+  - postgres.yaml
   # - http-route.yaml
