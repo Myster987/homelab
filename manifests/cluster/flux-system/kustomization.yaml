@@ -11,7 +11,7 @@ resources:
   - cluster-issuer.yaml
   - cloudflare.yaml
   - local-path-provisioner.yaml
-  # - cloudnative-pg.yaml
+  - cloudnative-pg.yaml
   # - redis.yaml
   # - databases.yaml
   # - spegel.yaml
