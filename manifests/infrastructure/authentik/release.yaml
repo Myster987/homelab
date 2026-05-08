@@ -16,16 +16,11 @@ spec:
       interval: 2h
   values:
     authentik:
-      secret_key: ""
       error_reporting:
         enabled: false
-      postgresql:
-        password: ""
 
     postgresql:
       enabled: true
-      auth:
-        password: ""
 
     redis:
       enabled: true
