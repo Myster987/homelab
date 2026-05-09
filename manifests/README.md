@@ -40,12 +40,6 @@ export GITHUB_USER=your-username
 export GITHUB_TOKEN=your-token
 ```
 
-Enable gateway API for cilium:
-
-```sh
-kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.4.1/standard-install.yaml  
-```
-
 Install cilium:
 
 ```sh
@@ -99,15 +93,9 @@ kubectl create secret generic sops-age \
 --from-file=age.agekey=/dev/stdin
 ```
 
-I use this sops-age command to decrypt files which is just simple:
-
-```sh
-alias sops-age="export SOPS_AGE_KEY_FILE=./age.agekey && sops"
-```
-
 ## Cloudflare tunnel
 
 Simply create tunnel in Cloudflare dashboard. Copy token and put it in secretes.
-When tunnel is created set in routes settings to route to: http://envoy-edge.envoy-gateway.svc.cluster.local:443
+When tunnel is created set in routes settings to route to: http://cilium-gateway-edge.networking.svc.cluster.local:443
 (Just match your gateway). Add CNAM record with NAME: * and point it to 
 tunnel-ID.cfargotunnel.com in DNS settings.
