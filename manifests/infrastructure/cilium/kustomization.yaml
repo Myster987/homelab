@@ -6,5 +6,5 @@ resources:
   - release.yaml
   - ip-pool.yaml
   - l2-announcement.yaml
-  - gateway.yaml
+  # - gateway.yaml
   - hubble-dashboard.yaml
