@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./manifests/infrastructure/gateway-api-crds
+  path: ./manifests/infrastructure/crds
   prune: false
   wait: true
   sourceRef:
