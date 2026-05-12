@@ -27,7 +27,7 @@ spec:
   from:
     - group: gateway.envoyproxy.io
       kind: SecurityPolicy
-      namespace: kube-system
+      namespace: networking
   to:
     - group: ""
       kind: Service
@@ -37,7 +37,7 @@ apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: SecurityPolicy
 metadata:
   name: hubble-forward-auth
-  namespace: kube-system
+  namespace: networking
 spec:
   targetRefs:
     - group: gateway.networking.k8s.io
