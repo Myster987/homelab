@@ -3,7 +3,6 @@ kind: Kustomization
 resources:
   # - https://github.com/envoyproxy/gateway/releases/latest/download/envoy-gateway-crds.yaml
   - namespace.yaml
-  - envoy-gateway-crds.yaml
   - repository.yaml
   - release.yaml
   - gateway.yaml
