@@ -36,6 +36,14 @@ spec:
           parentRefs:
             - name: edge
               namespace: networking
+          additionalRules:
+            - backendRefs:
+                - name: ak-outpost-authentik-embedded-outpost
+                  port: 9000
+              matches:
+                - path:
+                    type: PathPrefix
+                    value: /outpost.goauthentik.io
 
   valuesFrom:
     - kind: Secret
