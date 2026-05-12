@@ -14,9 +14,15 @@ spec:
         name: envoy-gateway
         namespace: networking
   install:
-    crds: Skip
+    crds: CreateReplace
   upgrade:
-    crds: Skip
+    crds: CreateReplace
   values:
+    crds:
+      gatewayAPI:
+        enabled: false
+      # Only install envoy specifc crds
+      envoyGateway:
+        enabled: true
     service:
       type: LoadBalancer
