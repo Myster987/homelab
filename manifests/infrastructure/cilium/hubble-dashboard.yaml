@@ -43,6 +43,7 @@ spec:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
       name: hubble-ui-route
+      namespace: kube-system
   extAuth:
     failOpen: false
     recomputeRoute: true
