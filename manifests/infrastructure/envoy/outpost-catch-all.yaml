@@ -12,6 +12,9 @@ spec:
         - path:
             type: PathPrefix
             value: /outpost.goauthentik.io
+        - path:
+            type: PathPrefix
+            value: /static/dist
       backendRefs:
         - name: ak-outpost-authentik-embedded-outpost
           namespace: authentik
