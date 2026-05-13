@@ -5,7 +5,7 @@ resources:
   - gotk-sync.yaml
   - crds.yaml
   - cilium.yaml
-  - envoy.yaml
+  # - envoy.yaml
   # - metallb.yaml
   - cert-manager.yaml
   - cluster-issuer.yaml
