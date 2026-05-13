@@ -6,3 +6,4 @@ resources:
   - repository.yaml
   - release.yaml
   - gateway.yaml
+  - outpost-catch-all.yaml
