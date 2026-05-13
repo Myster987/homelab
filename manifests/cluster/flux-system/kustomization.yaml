@@ -6,7 +6,6 @@ resources:
   - crds.yaml
   - cilium.yaml
   # - envoy.yaml
-  # - metallb.yaml
   - cert-manager.yaml
   - cluster-issuer.yaml
   - cloudflare.yaml
