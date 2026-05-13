@@ -46,7 +46,7 @@ spec:
       name: hubble-ui-route
   extAuth:
     failOpen: false
-    recomputeRoute: true
+    recomputeRoute: falses
     headersToExtAuth:
       - cookie
       - authorization
