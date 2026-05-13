@@ -15,4 +15,4 @@ resources:
   # - redis.yaml
   # - databases.yaml
   # - spegel.yaml
-  - authentik.yaml
+  # - authentik.yaml
