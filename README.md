@@ -34,10 +34,9 @@ In Network tab I created Homelab VLAN and reserved DHCP range for it.
 
 I create VMs using instruction found in `terraform` module. Because now I know MAC 
 addresses of my nodes so I can reserve static IPs for them in my Homelab network.
-When it comes to raspberry pi, just go to [talos factory](https://factory.talos.dev/)
-and select single-board computer, flash disk image on SD card or SSD if you have
-one and boot raspberry pi while it's connected to switch. I also change settings
-on port, so that my pi is only accepting traffic with my VLAN tag.
+When it comes to raspberry pi, I installed pxvirt which is proxmox adaptation to work
+on arm. Resources are quire limited, but this alows me to simply delete vm when I break
+something, so laziness won in this case.
 
 ## Optional Step - Tailscale access to subnet
 
@@ -57,45 +56,3 @@ sudo tailscale set --advertise-routes=homelab network (in this case 10.0.0.0/24)
 
 And approve it in tailscale UI, if it wasn't done automaticly. Detailed 
 documentation can be found [here](https://tailscale.com/kb/1019/subnets).
-
-### Usefull template for me (not needed in whole cluster)
-
-Requirements:
-- [Ubuntu Cloud Image](https://cloud-images.ubuntu.com/noble/current) install it in **local storage** tab.
-- Free RAM and disk space on your proxmox machine
-
-Any params can be used, this are just examples.
-
-```sh
-qm create 9000 --name ubuntu-cloud --memory 1024 --cores 1
-```
-
-Attach disk Image:
-
-```sh
- qm importdisk 9000 /var/lib/vz/template/iso/noble-server-cloudimg-amd64.img local-lvm
-```
-
-Create VM disk:
-
-```sh
-qm set 9000 --scsihw virtio-scsi-pci --virtio0 local-lvm:vm-9000-disk-0
-```
-
-Resize disk as you connected:
-
-```sh
-qm resize 9000 virtio0 10G
-```
-
-In this template VM Hardware tab add `CloudInit Drive` and set correct boot order:
-
-```sh
-qm set 9000 --boot order="ide2;virtio0"
-```
-
-Set correct socket to se cloud-init output:
-
-```sh
-qm set 9000 --serial0 socket --vga serial0
-```
