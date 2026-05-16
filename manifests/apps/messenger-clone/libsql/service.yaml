@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: libsql
+  namespace: messenger-clone
+spec:
+  selector:
+    app: libsql
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080

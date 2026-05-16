@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: libsql
+  namespace: messenger-clone
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: libsql
+  template:
+    metadata:
+      labels:
+        app: libsql
+    spec:
+      containers:
+        - name: sqld
+          image: ghcr.io/tursodatabase/libsql-server:latest
+          args:
+            - sqld
+            - --db-path=/data/iku.db
+            - --http-listen-addr=0.0.0.0:8080
+          ports:
+            - containerPort: 8080 # HTTP / hrana protocol
+            - containerPort: 5001 # gRPC
+          env:
+            - name: SQLD_AUTH_JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: libsql-secret
+                  key: jwt-key
+          volumeMounts:
+            - name: data
+              mountPath: /data
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: libsql-pvc
