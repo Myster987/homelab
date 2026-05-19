@@ -49,7 +49,7 @@ helm repo update --kubeconfig=./kubeconfig.yaml
 helm install \
     cilium \
     cilium/cilium \
-    --version 1.18.0 \
+    --version 1.20.0-pre.2 \
     --namespace kube-system \
     --set ipam.mode=kubernetes \
     --set kubeProxyReplacement=true \
@@ -91,6 +91,16 @@ cat age.agekey |
 kubectl create secret generic sops-age \
 --namespace=flux-system \
 --from-file=age.agekey=/dev/stdin
+```
+
+Usage:
+
+```sh
+./decrypt.sh file_name.enc # decrypts *.enc file
+./decrypt-in-place.sh file_name # decrypts file in place
+
+./encrypt.sh file_name # decrypts file as file.enc
+./encrypt-in-place.sh file_name # encrypts file in place
 ```
 
 ## Cloudflare tunnel
