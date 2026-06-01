@@ -12,6 +12,4 @@ resources:
   - local-path-provisioner.yaml
   - cloudnative-pg.yaml
   # - redis.yaml
-  # - databases.yaml
   # - spegel.yaml
-  # - authentik.yaml
