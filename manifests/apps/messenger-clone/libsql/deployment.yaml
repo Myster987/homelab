@@ -21,14 +21,14 @@ spec:
             - --db-path=/data/iku.db
             - --http-listen-addr=0.0.0.0:8080
           ports:
-            - containerPort: 8080 # HTTP / hrana protocol
-            - containerPort: 5001 # gRPC
+            - containerPort: 8080
+            - containerPort: 5001
           env:
             - name: SQLD_AUTH_JWT_KEY
               valueFrom:
                 secretKeyRef:
-                  name: libsql-secret
-                  key: jwt-key
+                  name: messenger-clone-secret
+                  key: DATABASE_TOKEN
           volumeMounts:
             - name: data
               mountPath: /data

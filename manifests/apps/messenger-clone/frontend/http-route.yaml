@@ -1,0 +1,35 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: frontend
+  namespace: messenger-clone
+spec:
+  parentRefs:
+    - name: edge
+      namespace: networking
+  hostnames:
+    - "messenger-clone.mikolajmaciejak.dev"
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: frontend
+          namespace: messenger-clone
+          port: 3000
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: allow-networking-to-frontend
+  namespace: messenger-clone
+spec:
+  from:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      namespace: networking
+  to:
+    - group: ""
+      kind: Service
+      name: frontend

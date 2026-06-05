@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: messenger-clone
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: messenger-clone-frontend
+          image: ghcr.io/myster987/messenger-clone-frontend:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: SECRET_DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: messenger-clone-secret
+                  key: DATABASE_URL
+            - name: SECRET_DATABASE_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: messenger-clone-secret
+                  key: DATABASE_TOKEN
+
+            - name: SECRET_CLOUDINARY_CLOUD_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: messenger-clone-secret
+                  key: CLOUDINARY_CLOUD_NAME
+            - name: SECRET_CLOUDINARY_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: messenger-clone-secret
+                  key: CLOUDINARY_API_KEY
+            - name: SECRET_CLOUDINARY_API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: messenger-clone-secret
+                  key: CLOUDINARY_API_SECRET
+
+            - name: PUBLIC_API_URL
+              valueFrom:
+                secretKeyRef:
+                  name: messenger-clone-secret
+                  key: PUBLIC_API_URL
+
+            - name: BETTER_AUTH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: messenger-clone-secret
+                  key: BETTER_AUTH_SECRET
+            - name: BETTER_AUTH_URL
+              valueFrom:
+                secretKeyRef:
+                  name: messenger-clone-secret
+                  key: BETTER_AUTH_URL
