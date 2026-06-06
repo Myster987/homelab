@@ -28,7 +28,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: messenger-clone-secret
-                  key: DATABASE_TOKEN
+                  key: SQLD_AUTH_JWT_KEY
           volumeMounts:
             - name: data
               mountPath: /data
