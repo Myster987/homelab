@@ -13,6 +13,20 @@ spec:
       labels:
         app: frontend
     spec:
+      initContainers:
+        - name: db-migrate
+          image: ghcr.io/myster987/messenger-clone-db:latest
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: messenger-clone-secret
+                  key: DATABASE_URL
+            - name: DATABASE_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: messenger-clone-secret
+                  key: DATABASE_TOKEN
       containers:
         - name: messenger-clone-frontend
           image: ghcr.io/myster987/messenger-clone-frontend:latest

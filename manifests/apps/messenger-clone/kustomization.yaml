@@ -4,6 +4,6 @@ resources:
   - namespace.yaml
   - secret.yaml
   - ./libsql
-  - ./migrate
+  # - ./migrate
   - ./backend
   - ./frontend
