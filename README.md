@@ -56,3 +56,20 @@ sudo tailscale set --advertise-routes=homelab network (in this case 10.0.0.0/24)
 
 And approve it in tailscale UI, if it wasn't done automaticly. Detailed 
 documentation can be found [here](https://tailscale.com/kb/1019/subnets).
+
+---
+
+## Usefull scripts
+
+When working with secrets in Kubernetes use:
+
+```sh
+decrypt.sh # creates file_name.yaml.enc 
+decrypt-in-place.sh
+
+encrypt.sh
+decrypt-in-place.sh
+```
+
+They require SOPS and age configured, but now secrets can be safely
+stored in repo. (Just don't commit the age key, store it somewhere else).
