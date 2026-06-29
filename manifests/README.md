@@ -67,6 +67,8 @@ helm install \
 Bootstrap command:
 
 ```sh
+source .env
+
 flux bootstrap github \
   --owner=$GITHUB_USER \
   --repository=homelab \

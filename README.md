@@ -4,6 +4,27 @@ My personal homelab setup with detailed description how everything works. My pla
 is to make this repo easy to deploy and reproduce if needed. Some design choises
 are bad, but this isn't production grad, so it's fine.
 
+## Repo Structure
+
+```txt
+.
+├── terraform/              # Provisions Talos VMs on Proxmox (step 1)
+│   └── modules/talos/      # Reusable VM module hitting the Proxmox API
+├── ansible/                # Bootstraps the Talos K8s cluster (step 2)
+│   ├── inventory/          # Node IPs (must be DHCP-reserved)
+│   └── playbooks/          # gen config -> apply -> bootstrap -> get kubeconfig
+├── talos/                  # Talos OS config
+│   ├── patches/            # Machine-config patches (no kube-proxy, install disk...)
+│   └── config/             # SOPS-encrypted talosconfig
+├── manifests/              # All K8s state, reconciled by Flux GitOps (step 3)
+│   ├── cluster/flux-system/  # Flux entrypoint: what to deploy + order
+│   ├── infrastructure/     # Platform: cilium, cert-manager, cloudflare,
+│   │                       #   cloudnative-pg, redis, spegel, crds...
+│   └── apps/               # Workloads
+├── encrypt.sh / decrypt.sh             # SOPS+age: make/read a file.enc
+└── encrypt-in-place.sh / decrypt-in-place.sh  # Same, in place
+```
+
 ## Network
 
 Since now I have access to Ubiquiti Cloud Gateway (♥️  for Ubiquiti) I can 
@@ -56,20 +77,3 @@ sudo tailscale set --advertise-routes=homelab network (in this case 10.0.0.0/24)
 
 And approve it in tailscale UI, if it wasn't done automaticly. Detailed 
 documentation can be found [here](https://tailscale.com/kb/1019/subnets).
-
----
-
-## Usefull scripts
-
-When working with secrets in Kubernetes use:
-
-```sh
-decrypt.sh # creates file_name.yaml.enc 
-decrypt-in-place.sh
-
-encrypt.sh
-decrypt-in-place.sh
-```
-
-They require SOPS and age configured, but now secrets can be safely
-stored in repo. (Just don't commit the age key, store it somewhere else).
