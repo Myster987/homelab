@@ -1,4 +1,5 @@
-// no imports needed
+// JWT generator with public key
+// no imports needed, run with Bun.js
 
 const access = "rw";
 
