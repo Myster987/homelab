@@ -8,21 +8,24 @@ are bad, but this isn't production grad, so it's fine.
 
 ```txt
 .
-├── terraform/              # Provisions Talos VMs on Proxmox (step 1)
-│   └── modules/talos/      # Reusable VM module hitting the Proxmox API
-├── ansible/                # Bootstraps the Talos K8s cluster (step 2)
-│   ├── inventory/          # Node IPs (must be DHCP-reserved)
-│   └── playbooks/          # gen config -> apply -> bootstrap -> get kubeconfig
-├── talos/                  # Talos OS config
-│   ├── patches/            # Machine-config patches (no kube-proxy, install disk...)
-│   └── config/             # SOPS-encrypted talosconfig
-├── manifests/              # All K8s state, reconciled by Flux GitOps (step 3)
+├── terraform/                # Provisions Talos VMs on Proxmox (step 1)
+│   └── modules/talos/        # Reusable VM module hitting the Proxmox API
+├── ansible/                  # Bootstraps the Talos K8s cluster (step 2)
+│   ├── inventory/            # Node IPs (must be DHCP-reserved)
+│   └── playbooks/            # gen config -> apply -> bootstrap -> get kubeconfig
+├── talos/                    # Talos OS config
+│   ├── patches/              # Machine-config patches (no kube-proxy, install disk...)
+│   └── config/               # SOPS-encrypted talosconfig
+├── manifests/                # All K8s state, reconciled by Flux GitOps (step 3)
 │   ├── cluster/flux-system/  # Flux entrypoint: what to deploy + order
-│   ├── infrastructure/     # Platform: cilium, cert-manager, cloudflare,
-│   │                       #   cloudnative-pg, redis, spegel, crds...
-│   └── apps/               # Workloads
-├── encrypt.sh / decrypt.sh             # SOPS+age: make/read a file.enc
-└── encrypt-in-place.sh / decrypt-in-place.sh  # Same, in place
+│   ├── infrastructure/       # Platform: cilium, cert-manager, cloudflare,
+│   │                         # cloudnative-pg, redis, spegel, crds...
+│   └── apps/                 # Workloads
+├── scripts/                  # Usefull scripts
+│   ├── encrypt.sh / decrypt.sh             # SOPS+age: make/read a file.enc
+│   ├── encrypt-in-place.sh / decrypt-in-place.sh  # Same, in place
+│   └── gen-jwt.ts  # Generates JWT with Public Key 
+└── .sops.yaml  # Defines what SOPS can encrypt  
 ```
 
 ## Network
