@@ -3,7 +3,11 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - repository.yaml
-  - crds/envoy-crds.yaml
+  # Envoy Gateway's own CRDs only (no Gateway API CRDs — those come from
+  # manifests/infrastructure/crds). Not helm-managed: the chart bundle is
+  # blocked by the Gateway API safe-upgrades policy, and the CRDs exceed
+  # helm's 1MB release-secret limit. Keep version in sync with release.yaml.
+  - https://github.com/envoyproxy/gateway/releases/download/v1.8.3/envoy-gateway-crds.yaml
   - release.yaml
   - gateway-class.yaml
   - gateway.yaml
