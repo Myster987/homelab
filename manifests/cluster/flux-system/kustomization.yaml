@@ -8,7 +8,7 @@ resources:
   - crds.yaml
   - cilium.yaml
   - envoy.yaml
-  - oauth2-proxy.yaml
+  - authelia.yaml
   - cert-manager.yaml
   - cluster-issuer.yaml
   - cloudflare.yaml
