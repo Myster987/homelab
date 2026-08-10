@@ -4,6 +4,5 @@ resources:
   - namespace.yaml
   - repository.yaml
   - release.yaml
-  - ip-pool.yaml
-  - l2-announcement.yaml
-  - hubble-dashboard.yaml
+  - gateway-class.yaml
+  - gateway.yaml
