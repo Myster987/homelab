@@ -1,0 +1,15 @@
+# Proxy infrastructure overrides for the edge Gateway. Gives the generated
+# LoadBalancer service a stable name instead of the hashed default
+# (envoy-networking-edge-4416239c), so cloudflared can target
+# envoy-edge.envoy-gateway-system.svc.cluster.local.
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyProxy
+metadata:
+  name: edge-proxy
+  namespace: networking
+spec:
+  provider:
+    type: Kubernetes
+    kubernetes:
+      envoyService:
+        name: envoy-edge

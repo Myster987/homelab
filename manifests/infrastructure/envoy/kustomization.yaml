@@ -10,4 +10,5 @@ resources:
   - https://github.com/envoyproxy/gateway/releases/download/v1.8.3/envoy-gateway-crds.yaml
   - release.yaml
   - gateway-class.yaml
+  - envoy-proxy.yaml
   - gateway.yaml
