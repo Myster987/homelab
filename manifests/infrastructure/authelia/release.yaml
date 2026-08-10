@@ -43,8 +43,13 @@ spec:
       notifier:
         # Single-user setup: "emails" (password reset etc.) are written to
         # /config/notification.txt instead of SMTP.
-        filesystem:
+        # filesystem:
+        #   enabled: true
+        smtp:
           enabled: true
+          address: submission://smtp.gmail.com:587
+          sender: "Authelia <myster123987@gmail.com>"
+          username: myster123987@gmail.com
     secret:
       # Must contain keys: session.encryption.key, storage.encryption.key,
       # identity_validation.reset_password.jwt.hmac.key
