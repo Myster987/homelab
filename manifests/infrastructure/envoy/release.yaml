@@ -14,10 +14,10 @@ spec:
         name: envoy-gateway
         namespace: envoy-gateway-system
       interval: 2h
-  dependsOn:
-    - name: envoy-gateway-crds
   values:
     crds:
       # Gateway API CRDs come from manifests/infrastructure/crds (standard
-      # channel); Envoy Gateway CRDs from the envoy-gateway-crds release.
+      # channel); Envoy Gateway CRDs from crds/envoy-crds.yaml — the chart
+      # bundle conflicts with standard-channel CRDs and helm cannot store
+      # them in a release secret (>1MB).
       enabled: false
