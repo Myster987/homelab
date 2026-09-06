@@ -14,6 +14,17 @@ spec:
         - path:
             type: PathPrefix
             value: /
+      filters:
+        # hubble-ui's nginx sends no Cache-Control, so browsers heuristically
+        # cache index.html for weeks. A stale shell renders with an expired
+        # Authelia session and its assets get the ext-auth denial instead of
+        # CSS. no-cache forces revalidation, so the navigation hits ext-auth
+        # and redirects to the portal.
+        - type: ResponseHeaderModifier
+          responseHeaderModifier:
+            set:
+              - name: Cache-Control
+                value: "no-cache"
       backendRefs:
         - name: hubble-ui
           namespace: kube-system

@@ -31,6 +31,9 @@ spec:
           - domain: hubble.mikolajmaciejak.dev
             policy: two_factor
       session:
+        expiration: 12h
+        inactivity: 2h
+        remember_me: 1M
         cookies:
           # Cookie valid for all *.mikolajmaciejak.dev apps; portal at
           # https://auth.mikolajmaciejak.dev
