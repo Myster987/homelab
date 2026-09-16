@@ -1,0 +1,38 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: grafana
+  namespace: monitoring
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: grafana
+      version: 10.5.15
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+  values:
+    admin:
+      existingSecret: grafana-admin
+    grafana.ini:
+      server:
+        root_url: https://grafana.mikolajmaciejak.dev
+    persistence:
+      enabled: true
+      size: 2Gi
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        memory: 256Mi
+    datasources:
+      datasources.yaml:
+        apiVersion: 1
+        datasources:
+          - name: VictoriaMetrics
+            type: prometheus
+            access: proxy
+            url: http://vmsingle-victoria-metrics-single-server.monitoring.svc.cluster.local:8428
+            isDefault: true
