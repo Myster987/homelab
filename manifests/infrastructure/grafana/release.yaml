@@ -25,6 +25,10 @@ spec:
     grafana.ini:
       server:
         root_url: https://grafana.mikolajmaciejak.dev
+      feature_toggles:
+        # dashboard.grafana.app apiserver times out on single-instance SQLite
+        kubernetesDashboards: false
+        kubernetesClientDashboardsFolders: false
     persistence:
       enabled: true
       size: 2Gi
@@ -35,7 +39,7 @@ spec:
         cpu: 50m
         memory: 128Mi
       limits:
-        memory: 256Mi
+        memory: 512Mi
     datasources:
       datasources.yaml:
         apiVersion: 1
