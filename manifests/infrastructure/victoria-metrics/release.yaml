@@ -24,14 +24,101 @@ spec:
           memory: 256Mi
         limits:
           memory: 512Mi
-      # VM single scrapes targets itself — no vmagent needed
+      # VM single scrapes targets itself — no vmagent needed.
+      # Overriding scrape.config replaces the chart defaults, so the
+      # kubernetes jobs below are copied from the chart's stock config.
       scrape:
         enabled: true
         config:
           global:
             scrape_interval: 30s
           scrape_configs:
+            - job_name: victoriametrics
+              static_configs:
+                - targets: ["localhost:8428"]
+
             - job_name: deye
               static_configs:
                 - targets:
                     - deye-exporter.monitoring.svc.cluster.local:9100
+
+            # kubelet's own metrics (kubelet_*, volume stats)
+            - job_name: kubernetes-nodes
+              scheme: https
+              tls_config:
+                ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+                insecure_skip_verify: true
+              bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+              kubernetes_sd_configs:
+                - role: node
+              relabel_configs:
+                - action: labelmap
+                  regex: __meta_kubernetes_node_label_(.+)
+
+            # per-pod/container CPU, memory, network, fs (cAdvisor inside kubelet)
+            - job_name: kubernetes-nodes-cadvisor
+              scheme: https
+              tls_config:
+                ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+                insecure_skip_verify: true
+              bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+              kubernetes_sd_configs:
+                - role: node
+              metrics_path: /metrics/cadvisor
+              relabel_configs:
+                - action: labelmap
+                  regex: __meta_kubernetes_node_label_(.+)
+                - source_labels: [__metrics_path__]
+                  target_label: metrics_path
+              # https://github.com/VictoriaMetrics/VictoriaMetrics/issues/4697#issuecomment-1656540535
+              honor_timestamps: false
+
+            # any Service annotated with prometheus.io/scrape + prometheus.io/port
+            # (node-exporter, kube-state-metrics)
+            - job_name: kubernetes-service-endpoints
+              kubernetes_sd_configs:
+                - role: endpoints
+              relabel_configs:
+                - action: drop
+                  source_labels: [__meta_kubernetes_pod_container_init]
+                  regex: true
+                - action: keep_if_equal
+                  source_labels:
+                    [
+                      __meta_kubernetes_service_annotation_prometheus_io_port,
+                      __meta_kubernetes_pod_container_port_number,
+                    ]
+                - source_labels:
+                    [__meta_kubernetes_service_annotation_prometheus_io_scrape]
+                  action: keep
+                  regex: true
+                - source_labels:
+                    [__meta_kubernetes_service_annotation_prometheus_io_scheme]
+                  action: replace
+                  target_label: __scheme__
+                  regex: (https?)
+                - source_labels:
+                    [__meta_kubernetes_service_annotation_prometheus_io_path]
+                  action: replace
+                  target_label: __metrics_path__
+                  regex: (.+)
+                - source_labels:
+                    [
+                      __address__,
+                      __meta_kubernetes_service_annotation_prometheus_io_port,
+                    ]
+                  action: replace
+                  target_label: __address__
+                  regex: ([^:]+)(?::\d+)?;(\d+)
+                  replacement: $1:$2
+                - action: labelmap
+                  regex: __meta_kubernetes_service_label_(.+)
+                - source_labels: [__meta_kubernetes_namespace]
+                  action: replace
+                  target_label: namespace
+                - source_labels: [__meta_kubernetes_service_name]
+                  action: replace
+                  target_label: service
+                - source_labels: [__meta_kubernetes_pod_node_name]
+                  action: replace
+                  target_label: node

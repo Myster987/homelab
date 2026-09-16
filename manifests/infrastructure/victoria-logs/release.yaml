@@ -1,0 +1,27 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: vlogs
+  namespace: monitoring
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: victoria-logs-single
+      version: 0.13.9
+      sourceRef:
+        # reuses the repo from the victoria-metrics dir (same namespace)
+        kind: HelmRepository
+        name: victoria-metrics
+  values:
+    server:
+      retentionPeriod: 4w
+      persistentVolume:
+        enabled: true
+        size: 10Gi
+      resources:
+        requests:
+          cpu: 50m
+          memory: 128Mi
+        limits:
+          memory: 256Mi

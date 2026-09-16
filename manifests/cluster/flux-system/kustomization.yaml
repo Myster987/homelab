@@ -16,6 +16,7 @@ resources:
   - cloudnative-pg.yaml
   - renovate.yaml
   - victoria-metrics.yaml
+  - victoria-logs.yaml
   - grafana.yaml
   # - redis.yaml
   # - spegel.yaml
