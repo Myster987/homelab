@@ -1,0 +1,18 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: deye-scraper
+  namespace: flux-system
+spec:
+  interval: 30m
+  path: ./manifests/apps/deye-scraper
+  prune: true
+  dependsOn:
+    - name: victoria-metrics
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age

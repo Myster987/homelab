@@ -42,7 +42,7 @@ spec:
             - job_name: deye
               static_configs:
                 - targets:
-                    - deye-exporter.monitoring.svc.cluster.local:9100
+                    - deye-scraper.monitoring.svc.cluster.local:9100
 
             # kubelet's own metrics (kubelet_*, volume stats)
             - job_name: kubernetes-nodes

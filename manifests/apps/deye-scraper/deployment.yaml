@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deye-scraper
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deye-scraper
+  template:
+    metadata:
+      labels:
+        app: deye-scraper
+    spec:
+      containers:
+        - name: deye-scraper
+          image: ghcr.io/myster987/deye-scraper:latest
+          ports:
+            - containerPort: 9100
+          env:
+            - name: DEYE_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: deye-scraper-secret
+                  key: DEYE_HOST
+            - name: DEYE_SERIAL
+              valueFrom:
+                secretKeyRef:
+                  name: deye-scraper-secret
+                  key: DEYE_SERIAL
+            - name: EXPORTER_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: deye-scraper-secret
+                  key: EXPORTER_PORT
+            - name: POLL_INTERVAL
+              valueFrom:
+                secretKeyRef:
+                  name: deye-scraper-secret
+                  key: POLL_INTERVAL
