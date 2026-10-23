@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: victoria-logs-single
-      version: 0.13.9
+      version: 0.13.10
       sourceRef:
         # reuses the repo from the victoria-metrics dir (same namespace)
         kind: HelmRepository
